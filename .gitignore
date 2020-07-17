@@ -2,7 +2,7 @@
 *.sdf
 *.suo
 *.vcxproj.user
-libs/freetype/freetype-2.4.10/
+libs/freetype/src/
 *bin/
 *obj/
 Debug/

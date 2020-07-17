@@ -16,6 +16,7 @@
 #include "ControllerGL.h"
 #include "resource.h"
 #include "Log.h"
+#include "gl8k.h"
 using namespace Win;
 
 
@@ -146,10 +147,18 @@ void ControllerGL::runThread()
     model->resizeWindow(rect.right, rect.bottom);
     Win::log(L"Initialized OpenGL viewport and projection matrix.");
 
+	// init GL
+	InitGlExtensions();
+
     // rendering loop
     Win::log(L"Entering OpenGL rendering thread...");
     while(loopFlag)
     {
+		if (model->shouldRegenerateFont)
+		{
+			model->shouldRegenerateFont = false;
+			model->generateFont();
+		}
         //std::this_thread::yield();      // yield to other processes or threads
         std::this_thread::sleep_for(std::chrono::milliseconds(1));  // yield to other processes or threads
         model->draw();

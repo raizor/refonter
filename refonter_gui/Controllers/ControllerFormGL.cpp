@@ -61,40 +61,65 @@ LRESULT ControllerFormGL::create()
 ///////////////////////////////////////////////////////////////////////////////
 LRESULT ControllerFormGL::command(int id, int command, LPARAM msg)
 {
-    static bool flag = false;
+	static bool flag = false;
 
-    switch(id)
-    {
-    case IDC_ANIMATE:
-        if(command == BN_CLICKED)
-        {
-            flag = !flag;
-            model->animate(flag);
-            view->animate(flag);
-        }
-        break;
+	switch (id)
+	{
+	case IDC_ANIMATE:
+		if (command == BN_CLICKED)
+		{
+			flag = !flag;
+			model->animate(flag);
+			view->animate(flag);
+		}
+		break;
 
-    case IDC_FILL:
-        if(command == BN_CLICKED)
-        {
-            model->setDrawMode(0);
-        }
-        break;
+	case IDC_FILL:
+		if (command == BN_CLICKED)
+		{
+			model->setDrawMode(0);
+		}
+		break;
 
-    case IDC_WIREFRAME:
-        if(command == BN_CLICKED)
-        {
-            model->setDrawMode(1);
-        }
-        break;
+	case IDC_WIREFRAME:
+		if (command == BN_CLICKED)
+		{
+			model->setDrawMode(1);
+		}
+		break;
 
-    case IDC_POINT:
-        if(command == BN_CLICKED)
-        {
-            model->setDrawMode(2);
-        }
-        break;
-    }
+	case IDC_POINT:
+		if (command == BN_CLICKED)
+		{
+			model->setDrawMode(2);
+		}
+		break;
+
+	case IDC_BUTTON_SELECT_FONT:
+		if (command == BN_CLICKED)
+		{
+			CHOOSEFONT cf;
+			LOGFONT log;
+
+			//Setting the CHOOSEFONT structure
+			cf.lStructSize = sizeof(CHOOSEFONT);
+			cf.hwndOwner = (HWND)NULL;
+			cf.lpLogFont = &log;
+			cf.Flags = CF_SCREENFONTS | CF_NOSIZESEL | CF_TTONLY;
+			cf.rgbColors = RGB(0, 0, 0);
+			cf.lCustData = 0L;
+			cf.lpfnHook = (LPCFHOOKPROC)NULL;
+			cf.lpTemplateName = (LPCWSTR)NULL;
+			cf.hInstance = (HINSTANCE)NULL;
+			cf.lpszStyle = (LPWSTR)NULL;
+			cf.nFontType = SCREEN_FONTTYPE;
+			//cf.nSizeMin = 24;
+
+			bool ok = ChooseFont(&cf);
+			DWORD dw = CommDlgExtendedError();
+		}
+		break;
+	}
 
     return 0;
 }

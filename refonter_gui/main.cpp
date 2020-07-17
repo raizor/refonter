@@ -22,6 +22,7 @@
 #include "ViewFormGL.h"
 #include "resource.h"
 #include "Log.h"
+#include "gl8k.h"
 
 
 // function declarations

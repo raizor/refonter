@@ -18,6 +18,8 @@
 #include <GL/glu.h>
 
 #include "Sphere.h"
+#include "refonter.h"
+#include "Font.h"
 
 
 class ModelGL
@@ -47,6 +49,10 @@ public:
     void setBackgroundGreen(float value);
     void setBackgroundBlue(float value);
 
+	void generateFont();
+
+	bool shouldRegenerateFont;
+
 protected:
 
 private:
@@ -58,10 +64,13 @@ private:
     // members
     int windowWidth;
     int windowHeight;
+	
     bool animateFlag;                               // on/off animation
     bool changeDrawMode;
     int drawMode;
     Sphere sphere;
+	refonter_font refont;
+	Font* font;
     //unsigned int listId;                            // display list ID
     bool mouseLeftDown;
     bool mouseRightDown;

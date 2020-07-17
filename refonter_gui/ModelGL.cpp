@@ -11,7 +11,7 @@
 #include "ModelGL.h"
 #include "Bmp.h"
 #include "Log.h"
-
+#include "refonter_export.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 // default ctor
@@ -27,6 +27,7 @@ ModelGL::ModelGL() : windowWidth(0), windowHeight(0), animateFlag(false),
 
     // set radius, sectors and stacks for sphere
     sphere.set(1.0f, 72, 36);
+
 }
 
 
@@ -82,6 +83,8 @@ void ModelGL::init()
     glMaterialfv(GL_FRONT, GL_DIFFUSE, matDiffuse);
     glMaterialfv(GL_FRONT, GL_SPECULAR, matSpecular);
     glMaterialfv(GL_FRONT, GL_SHININESS, matShininess);
+	
+	shouldRegenerateFont = true;
 }
 
 
@@ -138,7 +141,7 @@ void ModelGL::setViewport(int w, int h)
     float aspectRatio = (float)w / h;
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(60.0f, (float)(w)/h, 0.1f, 20.0f); // FOV, AspectRatio, NearClip, FarClip
+    gluPerspective(60.0f, (float)(w)/h, 0.1f, 150.0f); // FOV, AspectRatio, NearClip, FarClip
 
     // switch to modelview matrix in order to set scene
     glMatrixMode(GL_MODELVIEW);
@@ -155,6 +158,28 @@ void ModelGL::resizeWindow(int w, int h)
     windowWidth = w;
     windowHeight = h;
     windowResized = true;
+}
+
+void ModelGL::generateFont() {
+	unsigned char* blob;
+	unsigned int blob_size;
+
+	char* font_path = "cheri.ttf";
+	char* chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789,.'-!() ";
+	int point_size = 16;
+	int resolution = 72;
+
+	// Create font blob and prepare for export
+	refonter_status status = refonter_create_font_blob(&blob, &blob_size, font_path, chars, point_size*kRefonterSubdivision, resolution);
+
+	if (status == kStatusOk)
+	{
+		refonter_font* p_font = (refonter_font*)blob;
+
+		delta_encode_points(p_font);
+		transform_pointers_to_offsets(p_font);
+		font = new Font((unsigned char*)blob, 1.0);
+	}
 }
 
 
@@ -180,17 +205,32 @@ void ModelGL::draw()
 
     //glPushMatrix();
 
+	/*
     // transform sphere
     glRotatef(-23.4f, 0.0f, 0.0f, 1.0f);        // axial tilt
     if(animateFlag)
         angle += 0.1f;
     glRotatef(angle, 0, 1, 0);                  // rotation around own axis
     glRotatef(-90.0f, 1.0f, 0.0f, 0.0f);        // stand up sphere axis
-
+	*/
     // draw sphere
-    glBindTexture(GL_TEXTURE_2D, textureId);
-    sphere.draw();
-
+    //glBindTexture(GL_TEXTURE_2D, textureId);
+	glTranslatef(-5, 0.0f, -2);
+	glScalef(0.5f, 0.5f, 0.5f);
+	glColor4f(1, 1, 1, 1);
+	font->Write("Joe");
+	
+	/*
+	glBegin(GL_QUADS);
+		
+		
+		
+		glVertex3f(-1, -1, -1);
+		glVertex3f( 1, -1, -1);
+		glVertex3f( 1, 1, -1);
+		glVertex3f( -1, 1, -1);
+	glEnd();
+	*/
     //glPopMatrix();
 
     glPopMatrix();
