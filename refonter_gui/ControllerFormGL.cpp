@@ -97,6 +97,15 @@ LRESULT ControllerFormGL::command(int id, int command, LPARAM msg)
 		}
 		break;
 
+	case IDC_COMBO_FONT:
+		if (command == CBN_SELCHANGE)
+		{
+			int index = view->GetFontComboIndex();
+			WindowsFont font = view->FontList->fonts.at(index);
+			int xx = 1;
+		}
+		break;
+
 	case IDC_BUTTON_SELECT_FONT:
 		if (command == BN_CLICKED)
 		{

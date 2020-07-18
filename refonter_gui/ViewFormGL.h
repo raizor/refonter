@@ -28,6 +28,8 @@ namespace Win
         // update controls on the form
         void animate(bool flag);
         void updateTrackbars(HWND handle, int position);
+		int GetFontComboIndex();
+		WindowsFontList* FontList;
 
     protected:
 
@@ -41,7 +43,7 @@ namespace Win
         Win::Trackbar trackbarGreen;
         Win::Trackbar trackbarBlue;
 		Win::ComboBox comboFont;
-		WindowsFontList* FontList;
+		
     };
 }
 

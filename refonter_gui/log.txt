@@ -1,23 +1,12 @@
-===== Log started at 2020-07-18, 21:10:38. =====
+===== Log started at 2020-07-18, 22:30:45. =====
 
-21:10:39  Main window is created.
-21:10:39  Created a rendering thread for OpenGL.
-21:10:39  OpenGL window is resized: 300x300.
-21:10:39  OpenGL window is created.
-21:10:39  Initialized OpenGL states.
-21:10:39  Initialized OpenGL viewport and projection matrix.
-21:10:39  Entering OpenGL rendering thread...
-21:10:39  OpenGL form dialog is created.
-21:10:39  Status bar window is created.
-21:10:39  OpenGL window is resized: 1175x1175.
-21:10:47  
-21:10:47  Terminating application...
-21:10:47  Closed OpenGL context.
-21:10:47  Exit OpenGL rendering thread.
-21:10:47  OpenGL window is destroyed.
-21:10:47  Form dialog is destroyed.
-21:10:47  Main window is destroyed.
-21:10:47  Application terminated.
-
-
-===== END OF LOG =====
+22:30:45  Main window is created.
+22:30:46  Created a rendering thread for OpenGL.
+22:30:46  OpenGL window is resized: 300x300.
+22:30:46  OpenGL window is created.
+22:30:46  Initialized OpenGL states.
+22:30:46  Initialized OpenGL viewport and projection matrix.
+22:30:46  Entering OpenGL rendering thread...
+22:30:46  OpenGL form dialog is created.
+22:30:46  Status bar window is created.
+22:30:46  OpenGL window is resized: 1175x1175.

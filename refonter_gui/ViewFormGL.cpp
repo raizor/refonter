@@ -57,9 +57,9 @@ void ViewFormGL::initControls(HWND handle)
 
 	FontList = new WindowsFontList();
 
-	for (auto &fontName : FontList->fontNames) // access by reference to avoid copying
+	for (auto &font : FontList->fonts) // access by reference to avoid copying
 	{
-		comboFont.addString(fontName.c_str());
+		comboFont.addString(font.Name.c_str());
 	}
 }
 
@@ -95,4 +95,8 @@ void ViewFormGL::updateTrackbars(HWND handle, int position)
     {
         trackbarBlue.setPos(position);
     }
+}
+
+int ViewFormGL::GetFontComboIndex() {
+	return SendMessage(comboFont.getHandle(), CB_GETCURSEL, 0, 0);
 }

@@ -11,15 +11,7 @@
 #include "refonter.h"
 #include "refonter_glu_tesselator.h"
 #include "gl8k.h"
-
-
-class WindowsFontList
-{
-public:
-	std::vector<std::wstring> fontNames;
-	std::vector<std::wstring> fontPaths;
-	WindowsFontList();
-};
+#include "WindowsFonts.h"
 
 // Convenience font class
 // This class uses OpenGL 3.3 array buffers to draw characters

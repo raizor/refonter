@@ -54,6 +54,7 @@
     <ClCompile Include="ControllerMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="WindowsFonts.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bmp.h">
@@ -112,6 +113,7 @@
     <ClInclude Include="ControllerMain.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="WindowsFonts.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="refonter_gui.rc">

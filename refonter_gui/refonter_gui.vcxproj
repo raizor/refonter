@@ -200,6 +200,7 @@
     <ClCompile Include="ViewGL.cpp" />
     <ClCompile Include="wcharUtil.cpp" />
     <ClCompile Include="Window.cpp" />
+    <ClCompile Include="WindowsFonts.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bmp.h" />
@@ -222,6 +223,7 @@
     <ClInclude Include="ViewGL.h" />
     <ClInclude Include="wcharUtil.h" />
     <ClInclude Include="Window.h" />
+    <ClInclude Include="WindowsFonts.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="refonter_gui.rc" />
