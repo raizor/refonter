@@ -1,5 +1,9 @@
 #include "WindowsFonts.h"
 
+WindowsFont::WindowsFont()
+{
+}
+
 WindowsFont::WindowsFont(wstring name, wstring path)
 {
 	Name = name;
@@ -30,7 +34,14 @@ WindowsFontList::WindowsFontList() {
 		{
 			break;
 		}
-		WindowsFont* f = new WindowsFont(szValueName, szValueData);
+		wstring ws = L"";
+		wstring path = szValueData;
+		if (path.find(L"\\") == string::npos)
+		{
+			ws.append(L"C:\\Windows\\Fonts\\");
+		}
+		ws.append(szValueData);
+		WindowsFont* f = new WindowsFont(szValueName, ws);
 		fonts.push_back(*f);
 		dwIndex++;
 	}
@@ -45,13 +56,15 @@ WindowsFontList::WindowsFontList() {
 	while (true) {
 
 		DWORD dwValueNameSize = sizeof(szValueName) - 1;
-		DWORD dwValueDataSize = sizeof(szValueData) - 1;
+		DWORD dwValueDataSize = sizeof(szValueData) - 1; 
 		if (RegEnumValue(hkey, dwIndex, szValueName, &dwValueNameSize, NULL,
 			&dwType, (BYTE*)szValueData, &dwValueDataSize) != ERROR_SUCCESS)
 		{
 			break;
 		}
-		WindowsFont* f = new WindowsFont(szValueName, szValueData);
+		wstring ws = L"C:\\Windows\\Fonts\\";
+		ws.append(szValueData);
+		WindowsFont* f = new WindowsFont(szValueName, ws);
 		fonts.push_back(*f);
 		dwIndex++;
 	}

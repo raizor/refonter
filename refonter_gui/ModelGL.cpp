@@ -13,6 +13,8 @@
 #include "Log.h"
 #include "refonter_export.h"
 
+using namespace std;
+
 ///////////////////////////////////////////////////////////////////////////////
 // default ctor
 ///////////////////////////////////////////////////////////////////////////////
@@ -27,7 +29,8 @@ ModelGL::ModelGL() : windowWidth(0), windowHeight(0), animateFlag(false),
 
     // set radius, sectors and stacks for sphere
     sphere.set(1.0f, 72, 36);
-
+	WindowsFont* f = new WindowsFont(L"Cheri", L"cheri.ttf");
+	winFont = *f;
 }
 
 
@@ -164,7 +167,10 @@ void ModelGL::generateFont() {
 	unsigned char* blob;
 	unsigned int blob_size;
 
-	char* font_path = "cheri.ttf";
+	char path[MAX_PATH];
+	wstring your_wchar_in_ws(winFont.Path);
+	string your_wchar_in_str(your_wchar_in_ws.begin(), your_wchar_in_ws.end());
+	const char* font_path = your_wchar_in_str.c_str(); //wctomb(path, winFont.Path.c_str());
 	char* chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789,.'-!() ";
 	int point_size = 16;
 	int resolution = 72;

@@ -19,6 +19,7 @@ struct WindowsFont
 public:
 	wstring Name;
 	wstring Path;
+	WindowsFont();
 	WindowsFont(wstring name, wstring path);
 };
 

@@ -102,73 +102,15 @@ LRESULT ControllerFormGL::command(int id, int command, LPARAM msg)
 		{
 			int index = view->GetFontComboIndex();
 			WindowsFont font = view->FontList->fonts.at(index);
+			model->winFont = font;
+			model->shouldRegenerateFont = true;
 			int xx = 1;
 		}
 		break;
 
 	case IDC_BUTTON_SELECT_FONT:
 		if (command == BN_CLICKED)
-		{
-			CHOOSEFONT cf;
-			LOGFONT log;
-
-			//Setting the CHOOSEFONT structure
-			cf.lStructSize = sizeof(CHOOSEFONT);
-			cf.hwndOwner = (HWND)NULL;
-			cf.lpLogFont = &log;
-			cf.Flags = CF_SCREENFONTS | CF_TTONLY;
-			cf.rgbColors = RGB(0, 0, 0);
-			cf.lCustData = 0L;
-			cf.lpfnHook = (LPCFHOOKPROC)NULL;
-			cf.lpTemplateName = (LPCWSTR)NULL;
-			cf.hInstance = (HINSTANCE)NULL;
-			cf.lpszStyle = (LPWSTR)NULL;
-			cf.nFontType = SCREEN_FONTTYPE;
-			cf.nSizeMin = 24;
-
-			bool ok = ChooseFont(&cf);
-			DWORD dw = CommDlgExtendedError();
-
-			wchar_t* fontpath = L"Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts";
-			
-			static HKEY hkey = NULL;
-
-			RegOpenKey(
-				HKEY_LOCAL_MACHINE,
-				fontpath,
-				&hkey);			
-
-			static DWORD dwIndex = 0;
-			wchar_t szValueName[MAX_PATH];			
-			wchar_t szValueData[MAX_PATH];
-			DWORD dwType = 0;
-			bool nameMatched = false;
-
-			model->faceName = cf.lpLogFont->lfFaceName;
-						/*
-			wchar_t wcs[] = L"This is a simple string";
-			wchar_t * pwc;
-			pwc = wcsstr(model->faceName, L" (TrueType)");
-			pwc = 0x0;*/
-
-			wchar_t faceNameTT[MAX_PATH];
-			wsprintf(faceNameTT, L"%s (TrueType)", model->faceName);
-					
-			while (nameMatched == false) {
-
-				DWORD dwValueNameSize = sizeof(szValueName) - 1;
-				DWORD dwValueDataSize = sizeof(szValueData) - 1;
-				RegEnumValue(hkey, dwIndex, szValueName, &dwValueNameSize, NULL,
-					&dwType, (BYTE*)szValueData, &dwValueDataSize);
-
-				if (wcscmp(model->faceName, szValueName) ==0 || wcscmp(faceNameTT, szValueName) == 0) {
-					nameMatched = true;
-				}
-
-				dwIndex++;
-			}
-
-			
+		{			
 			model->shouldRegenerateFont = true;
 		}
 		break;

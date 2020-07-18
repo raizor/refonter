@@ -52,8 +52,7 @@ public:
 	void generateFont();
 
 	bool shouldRegenerateFont;
-	WCHAR* faceName;
-	WCHAR* faceFontfilePath;
+	WindowsFont winFont;
 
 protected:
 
