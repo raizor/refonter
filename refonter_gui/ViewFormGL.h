@@ -13,6 +13,7 @@
 
 #include <windows.h>
 #include "Controls.h"
+#include "Font.h"
 
 namespace Win
 {
@@ -39,6 +40,8 @@ namespace Win
         Win::Trackbar trackbarRed;
         Win::Trackbar trackbarGreen;
         Win::Trackbar trackbarBlue;
+		Win::ComboBox comboFont;
+		WindowsFontList* FontList;
     };
 }
 

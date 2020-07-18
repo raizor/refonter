@@ -37,23 +37,23 @@
     <ClCompile Include="Sphere.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Controllers\Controller.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Controllers\ControllerFormGL.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Controllers\ControllerGL.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Controllers\ControllerMain.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\refonter_export\refonter_export.cpp" />
     <ClCompile Include="Font.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="gl8k.cpp" />
+    <ClCompile Include="Controller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ControllerFormGL.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ControllerGL.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ControllerMain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bmp.h">
@@ -95,23 +95,23 @@
     <ClInclude Include="Sphere.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Controllers\Controller.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Controllers\ControllerFormGL.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Controllers\ControllerGL.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Controllers\ControllerMain.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Font.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="gl8k.h" />
     <ClInclude Include="glext.h" />
+    <ClInclude Include="Controller.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ControllerFormGL.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ControllerGL.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ControllerMain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="refonter_gui.rc">

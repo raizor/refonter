@@ -184,10 +184,10 @@
   <ItemGroup>
     <ClCompile Include="..\refonter_export\refonter_export.cpp" />
     <ClCompile Include="Bmp.cpp" />
-    <ClCompile Include="Controllers\Controller.cpp" />
-    <ClCompile Include="Controllers\ControllerFormGL.cpp" />
-    <ClCompile Include="Controllers\ControllerGL.cpp" />
-    <ClCompile Include="Controllers\ControllerMain.cpp" />
+    <ClCompile Include="Controller.cpp" />
+    <ClCompile Include="ControllerFormGL.cpp" />
+    <ClCompile Include="ControllerGL.cpp" />
+    <ClCompile Include="ControllerMain.cpp" />
     <ClCompile Include="DialogWindow.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="gl8k.cpp" />
@@ -203,10 +203,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bmp.h" />
-    <ClInclude Include="Controllers\Controller.h" />
-    <ClInclude Include="Controllers\ControllerFormGL.h" />
-    <ClInclude Include="Controllers\ControllerGL.h" />
-    <ClInclude Include="Controllers\ControllerMain.h" />
+    <ClInclude Include="Controller.h" />
+    <ClInclude Include="ControllerFormGL.h" />
+    <ClInclude Include="ControllerGL.h" />
+    <ClInclude Include="ControllerMain.h" />
     <ClInclude Include="Controls.h" />
     <ClInclude Include="DialogWindow.h" />
     <ClInclude Include="Font.h" />

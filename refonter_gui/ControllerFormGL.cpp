@@ -9,9 +9,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include <process.h>                                // for _beginthreadex()
+//#include <winreg.h>
 #include "ControllerFormGL.h"
 #include "resource.h"
 #include "Log.h"
+
 using namespace Win;
 
 
@@ -105,7 +107,7 @@ LRESULT ControllerFormGL::command(int id, int command, LPARAM msg)
 			cf.lStructSize = sizeof(CHOOSEFONT);
 			cf.hwndOwner = (HWND)NULL;
 			cf.lpLogFont = &log;
-			cf.Flags = CF_SCREENFONTS | CF_NOSIZESEL | CF_TTONLY;
+			cf.Flags = CF_SCREENFONTS | CF_TTONLY;
 			cf.rgbColors = RGB(0, 0, 0);
 			cf.lCustData = 0L;
 			cf.lpfnHook = (LPCFHOOKPROC)NULL;
@@ -113,10 +115,52 @@ LRESULT ControllerFormGL::command(int id, int command, LPARAM msg)
 			cf.hInstance = (HINSTANCE)NULL;
 			cf.lpszStyle = (LPWSTR)NULL;
 			cf.nFontType = SCREEN_FONTTYPE;
-			//cf.nSizeMin = 24;
+			cf.nSizeMin = 24;
 
 			bool ok = ChooseFont(&cf);
 			DWORD dw = CommDlgExtendedError();
+
+			wchar_t* fontpath = L"Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts";
+			
+			static HKEY hkey = NULL;
+
+			RegOpenKey(
+				HKEY_LOCAL_MACHINE,
+				fontpath,
+				&hkey);			
+
+			static DWORD dwIndex = 0;
+			wchar_t szValueName[MAX_PATH];			
+			wchar_t szValueData[MAX_PATH];
+			DWORD dwType = 0;
+			bool nameMatched = false;
+
+			model->faceName = cf.lpLogFont->lfFaceName;
+						/*
+			wchar_t wcs[] = L"This is a simple string";
+			wchar_t * pwc;
+			pwc = wcsstr(model->faceName, L" (TrueType)");
+			pwc = 0x0;*/
+
+			wchar_t faceNameTT[MAX_PATH];
+			wsprintf(faceNameTT, L"%s (TrueType)", model->faceName);
+					
+			while (nameMatched == false) {
+
+				DWORD dwValueNameSize = sizeof(szValueName) - 1;
+				DWORD dwValueDataSize = sizeof(szValueData) - 1;
+				RegEnumValue(hkey, dwIndex, szValueName, &dwValueNameSize, NULL,
+					&dwType, (BYTE*)szValueData, &dwValueDataSize);
+
+				if (wcscmp(model->faceName, szValueName) ==0 || wcscmp(faceNameTT, szValueName) == 0) {
+					nameMatched = true;
+				}
+
+				dwIndex++;
+			}
+
+			
+			model->shouldRegenerateFont = true;
 		}
 		break;
 	}

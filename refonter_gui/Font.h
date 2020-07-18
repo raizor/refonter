@@ -2,13 +2,24 @@
 
 #if _WIN32
 #include <windows.h>    // include windows.h to avoid thousands of compile errors even though this class is not depending on Windows
+#include <string>
 #endif
+#include <vector>
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include "refonter.h"
 #include "refonter.h"
 #include "refonter_glu_tesselator.h"
 #include "gl8k.h"
+
+
+class WindowsFontList
+{
+public:
+	std::vector<std::wstring> fontNames;
+	std::vector<std::wstring> fontPaths;
+	WindowsFontList();
+};
 
 // Convenience font class
 // This class uses OpenGL 3.3 array buffers to draw characters

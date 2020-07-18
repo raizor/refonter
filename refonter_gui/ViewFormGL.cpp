@@ -43,7 +43,8 @@ void ViewFormGL::initControls(HWND handle)
     trackbarRed.set(handle, IDC_RED);
     trackbarGreen.set(handle, IDC_GREEN);
     trackbarBlue.set(handle, IDC_BLUE);
-
+	comboFont.set(handle, IDC_COMBO_FONT);
+	
     // initial state
     radioFill.check();
     trackbarRed.setRange(0, 255);
@@ -52,6 +53,14 @@ void ViewFormGL::initControls(HWND handle)
     trackbarGreen.setPos(0);
     trackbarBlue.setRange(0, 255);
     trackbarBlue.setPos(0);
+	comboFont.setCurrentSelection(0);
+
+	FontList = new WindowsFontList();
+
+	for (auto &fontName : FontList->fontNames) // access by reference to avoid copying
+	{
+		comboFont.addString(fontName.c_str());
+	}
 }
 
 

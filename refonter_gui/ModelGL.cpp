@@ -84,7 +84,7 @@ void ModelGL::init()
     glMaterialfv(GL_FRONT, GL_SPECULAR, matSpecular);
     glMaterialfv(GL_FRONT, GL_SHININESS, matShininess);
 	
-	shouldRegenerateFont = true;
+	shouldRegenerateFont = true;	
 }
 
 
