@@ -25,6 +25,7 @@ WindowsFontList::WindowsFontList() {
 	wchar_t szValueData[MAX_PATH];
 	DWORD dwType = 0;
 
+	// add user fonts
 	while (true) {
 
 		DWORD dwValueNameSize = sizeof(szValueName) - 1;
@@ -33,6 +34,13 @@ WindowsFontList::WindowsFontList() {
 			&dwType, (BYTE*)szValueData, &dwValueDataSize) != ERROR_SUCCESS)
 		{
 			break;
+		}
+		wstring data = szValueData;
+		if (data.find(L".ttf") == string::npos)
+		{
+			// not a TTF font, skip it
+			dwIndex++;
+			continue;
 		}
 		wstring ws = L"";
 		wstring path = szValueData;
@@ -53,6 +61,8 @@ WindowsFontList::WindowsFontList() {
 		HKEY_LOCAL_MACHINE,
 		fontpath,
 		&hkey);
+
+	// add system fonts
 	while (true) {
 
 		DWORD dwValueNameSize = sizeof(szValueName) - 1;
@@ -62,6 +72,13 @@ WindowsFontList::WindowsFontList() {
 		{
 			break;
 		}
+		wstring data = szValueData;
+		if (data.find(L".ttf") == string::npos)
+		{
+			// not a TTF font, skip it
+			dwIndex++;
+			continue;
+		}
 		wstring ws = L"C:\\Windows\\Fonts\\";
 		ws.append(szValueData);
 		WindowsFont* f = new WindowsFont(szValueName, ws);
@@ -70,14 +87,14 @@ WindowsFontList::WindowsFontList() {
 	}
 }
 
-WindowsFont WindowsFontList::GetFont(std::wstring name)
+WindowsFont* WindowsFontList::GetFont(std::wstring name)
 {
 	for (int i = 0; i < fonts.size(); i++)
 	{
 		if (wcscmp(fonts.at(i).Name.c_str(), name.c_str()) == 0) {
-			return fonts.at(i);
+			return &fonts.at(i);
 		}
-		WindowsFont* f = new WindowsFont(L"", L"");
-		return *f;
 	}
+	WindowsFont* f = new WindowsFont(L"", L"");
+	return f;
 }

@@ -21,6 +21,11 @@
 #include "refonter.h"
 #include "Font.h"
 
+enum
+{
+	kRenderMode2D,
+	kRenderMode3D,
+};
 
 class ModelGL
 {
@@ -34,6 +39,8 @@ public:
     void setViewport(int width, int height);
     void resizeWindow(int width, int height);
     void draw();
+	void draw2D();
+	void draw3D();
 
     void setMouseLeft(bool flag) { mouseLeftDown = flag; };
     void setMouseRight(bool flag) { mouseRightDown = flag; };
@@ -50,9 +57,10 @@ public:
     void setBackgroundBlue(float value);
 
 	void generateFont();
-
+	void drawFontPreview(Font* font);
 	bool shouldRegenerateFont;
-	WindowsFont winFont;
+	WindowsFont* winFont;
+	unsigned int renderMode;
 
 protected:
 

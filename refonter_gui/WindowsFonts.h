@@ -29,5 +29,5 @@ public:
 	std::vector<WindowsFont> fonts;
 	WindowsFontList();
 
-	WindowsFont GetFont(std::wstring name);
+	WindowsFont* GetFont(std::wstring name);
 };

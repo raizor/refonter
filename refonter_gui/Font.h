@@ -18,12 +18,24 @@
 class Font
 {
 public:
-	refonter_font* font;
-	refonter_tesselation_object* tesselated_chars;
-	GLuint* bufferids;
-
+	static refonter_font* font;
+	static refonter_tesselation_object* tesselated_chars;
+	static GLuint* bufferids;
+	
 	Font(unsigned char* font_blob, double subdivision_tolerance)
 	{
+		if (Font::bufferids)
+		{
+			glDeleteBuffers(font->num_chars, Font::bufferids);
+			delete(Font::bufferids);
+		}
+
+		if (Font::font)
+			delete(Font::font);
+
+		if (Font::tesselated_chars)
+			delete(Font::tesselated_chars);
+				
 		// Init and tesselate
 		font = refonter_init_blob(font_blob);
 

@@ -100,9 +100,7 @@ LRESULT ControllerFormGL::command(int id, int command, LPARAM msg)
 	case IDC_COMBO_FONT:
 		if (command == CBN_SELCHANGE)
 		{
-			int index = view->GetFontComboIndex();
-			WindowsFont font = view->FontList->fonts.at(index);
-			model->winFont = font;
+			model->winFont = view->GetSelectedFont();
 			model->shouldRegenerateFont = true;
 			int xx = 1;
 		}

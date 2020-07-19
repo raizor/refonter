@@ -61,6 +61,7 @@ typedef struct
 	refonter_char_type id;
 	refonter_char_info flags;
 	refonter_coord     width;
+	refonter_coord     height;
 	refonter_count     num_contours;
 	refonter_contour*  contours;
 } refonter_char);

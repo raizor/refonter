@@ -29,8 +29,10 @@ ModelGL::ModelGL() : windowWidth(0), windowHeight(0), animateFlag(false),
 
     // set radius, sectors and stacks for sphere
     sphere.set(1.0f, 72, 36);
+	// todo clean this up
 	WindowsFont* f = new WindowsFont(L"Cheri", L"cheri.ttf");
-	winFont = *f;
+	winFont = f;
+	renderMode = kRenderMode2D;
 }
 
 
@@ -164,31 +166,130 @@ void ModelGL::resizeWindow(int w, int h)
 }
 
 void ModelGL::generateFont() {
-	unsigned char* blob;
+	unsigned char* blob = 0;
 	unsigned int blob_size;
 
 	char path[MAX_PATH];
-	wstring your_wchar_in_ws(winFont.Path);
+	wstring your_wchar_in_ws(winFont->Path);
 	string your_wchar_in_str(your_wchar_in_ws.begin(), your_wchar_in_ws.end());
 	const char* font_path = your_wchar_in_str.c_str(); //wctomb(path, winFont.Path.c_str());
 	char* chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789,.'-!() ";
 	int point_size = 16;
 	int resolution = 72;
 
+	if (font)
+	{
+		free(blob);
+	}
+
 	// Create font blob and prepare for export
 	refonter_status status = refonter_create_font_blob(&blob, &blob_size, font_path, chars, point_size*kRefonterSubdivision, resolution);
-
+	
 	if (status == kStatusOk)
 	{
 		refonter_font* p_font = (refonter_font*)blob;
-
+		
 		delta_encode_points(p_font);
-		transform_pointers_to_offsets(p_font);
+		transform_pointers_to_offsets(p_font);	
 		font = new Font((unsigned char*)blob, 1.0);
 	}
 }
 
+void ModelGL::drawFontPreview(Font* font)
+{
+	char* str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890,./,=+-[](){}";
+	int line = 0;
+	float xpos = 0;
+	float scale = 0.0075f;
+	glPushMatrix();
+	glTranslatef(0, 0.85f, 0);
+	glScalef(scale, scale, scale);
+	while (*str)
+	{
+		char c = *str;
+		refonter_coord width = 0;
+		refonter_coord height = 0;
+		float maxHeight = 0;
 
+		for (uint32_t i = 0; i < font->font->num_chars; i++)
+		{
+			// Find letter
+			if (font->font->chars[i].id == c)
+			{
+				// Draw letter
+				font->DrawLetter(i);
+
+				// Advance right
+				float charWidth = float(font->font->chars[i].width) / float(kRefonterSubdivision);				
+				float charHeight = float(font->font->chars[i].height) / float(kRefonterSubdivision);	
+
+				if (charHeight > maxHeight)
+					maxHeight = charHeight;
+
+				if (xpos + charWidth < 100)
+				{
+					glTranslatef(charWidth, 0.f, 0.f);	
+					xpos += charWidth;
+				}
+				else {
+					// next line
+					//glPopMatrix();
+					//glPushMatrix();
+					glTranslatef(-xpos, 0, 0);
+					glTranslatef(0, -maxHeight, 0);
+					//glTranslatef(0, 0.85f - (maxHeight), 0);
+					//glScalef(0.01f, 0.01f, 0.01f);
+					xpos = 0;
+				}
+				
+			}
+		}
+		str++;
+	}
+	glPopMatrix();
+}
+
+void ModelGL::draw2D()
+{
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glLoadIdentity();
+	glOrtho(0, 1, 0, 1, -1, 1);
+
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glLoadIdentity();
+
+	glPushAttrib(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_LIGHTING_BIT);
+
+	// TODO: deactivate all textures and program
+
+	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_CULL_FACE);
+	glEnable(GL_BLEND);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	glDisable(GL_LIGHTING);
+	glDisable(GL_LIGHT0);
+
+	// Draw black rects
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+
+	drawFontPreview(font);
+
+	// Restore IntroState
+	glPopAttrib();
+
+	glMatrixMode(GL_MODELVIEW);
+	glPopMatrix();
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+}
+
+void ModelGL::draw3D()
+{
+
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 // draw 2D/3D scene
@@ -203,41 +304,16 @@ void ModelGL::draw()
     // save the initial ModelView matrix before modifying ModelView matrix
     glPushMatrix();
 
-    // tramsform camera
-    glTranslatef(0, 0, cameraDistance);
-    glRotatef(cameraAngleX, 1, 0, 0);   // pitch
-    glRotatef(cameraAngleY, 0, 1, 0);   // heading
-
-
-    //glPushMatrix();
-
-	/*
-    // transform sphere
-    glRotatef(-23.4f, 0.0f, 0.0f, 1.0f);        // axial tilt
-    if(animateFlag)
-        angle += 0.1f;
-    glRotatef(angle, 0, 1, 0);                  // rotation around own axis
-    glRotatef(-90.0f, 1.0f, 0.0f, 0.0f);        // stand up sphere axis
-	*/
-    // draw sphere
-    //glBindTexture(GL_TEXTURE_2D, textureId);
-	glTranslatef(-5, 0.0f, -2);
-	glScalef(0.5f, 0.5f, 0.5f);
-	glColor4f(1, 1, 1, 1);
-	font->Write("Joe");
-	
-	/*
-	glBegin(GL_QUADS);
-		
-		
-		
-		glVertex3f(-1, -1, -1);
-		glVertex3f( 1, -1, -1);
-		glVertex3f( 1, 1, -1);
-		glVertex3f( -1, 1, -1);
-	glEnd();
-	*/
-    //glPopMatrix();
+	switch (renderMode)
+	{
+	case kRenderMode2D:
+		draw2D();
+		break;
+	case kRenderMode3D:
+		break;
+	default:
+		DebugBreak();
+	}
 
     glPopMatrix();
 

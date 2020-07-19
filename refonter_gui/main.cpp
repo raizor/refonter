@@ -25,6 +25,8 @@
 #include "gl8k.h"
 
 
+
+
 // function declarations
 int mainMessageLoop(HACCEL hAccelTable=0);
 
@@ -150,6 +152,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdArgs, int cmdS
     exitCode = mainMessageLoop(hAccelTable);
 
     Win::log("Application terminated.");
+	
     return exitCode;
 }
 

@@ -97,6 +97,9 @@ void ViewFormGL::updateTrackbars(HWND handle, int position)
     }
 }
 
-int ViewFormGL::GetFontComboIndex() {
-	return SendMessage(comboFont.getHandle(), CB_GETCURSEL, 0, 0);
+WindowsFont* ViewFormGL::GetSelectedFont() {
+	int index = SendMessage(comboFont.getHandle(), CB_GETCURSEL, 0, 0);
+	wchar_t fontName[MAX_PATH];
+	SendMessage(comboFont.getHandle(), CB_GETLBTEXT, (WPARAM)index, (LPARAM)fontName); //error: invalid conversion from 'WORD' to 'HWND__*'
+	return FontList->GetFont(fontName);
 }

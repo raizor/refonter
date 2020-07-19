@@ -4,6 +4,11 @@
 
 // These three lines are win/VC specific
 #include <windows.h>
+#include <stdlib.h>
+#include <fstream>
+#include <vector>
+#include <iterator>
+#include <algorithm>
 static char errorString[512];
 #define REFONTER_ERROR(format, ...) sprintf(errorString, format, __VA_ARGS__); OutputDebugStringA(errorString); 
 
@@ -122,7 +127,7 @@ unsigned int get_contour_type(FT_Outline& outline, unsigned int c)
 		return -1;
 }
 
-refonter_status load_char_outline(FT_Face& ftFace, refonter_char_type ch, FT_Outline* outline, int* width)
+refonter_status load_char_outline(FT_Face& ftFace, refonter_char_type ch, FT_Outline* outline, int* width, int* height)
 {
 	// Init
 	FT_Error error;
@@ -147,6 +152,7 @@ refonter_status load_char_outline(FT_Face& ftFace, refonter_char_type ch, FT_Out
 	FT_GlyphSlot glyph = ftFace->glyph;
 
 	*width = glyph->metrics.horiAdvance;
+	*height = glyph->metrics.vertAdvance;
 
 	// Check outline format
 	if (glyph->format != FT_GLYPH_FORMAT_OUTLINE)
@@ -167,7 +173,17 @@ refonter_status refonter_create_font_blob(unsigned char** blob, unsigned int* bl
 	FT_Error ftError;
 
 	refonter_status rfError;
-
+	
+	// read the font into memory and load into FT from memory to avoid memory-leak that eventually crashes the app
+	std::ifstream file(path, std::ios::binary | std::ios::ate);
+	std::streamsize size = file.tellg();
+	file.seekg(0, std::ios::beg);
+	std::vector<char> buffer(size);
+	if (!file.read(buffer.data(), size))
+	{
+		return kStatusErrorFTLoadFontFace;
+	}
+	   
 	// Open FT library
 	ftError = FT_Init_FreeType(&ftLibrary);
 	if (ftError != FT_Err_Ok)
@@ -177,7 +193,8 @@ refonter_status refonter_create_font_blob(unsigned char** blob, unsigned int* bl
 	}
 
 	// Load font face
-	ftError = FT_New_Face(ftLibrary, path, 0, &ftFace);
+	ftError = FT_New_Memory_Face(ftLibrary, (unsigned char*)buffer.data(), size, 0, &ftFace);
+	//ftError = FT_New_Face(ftLibrary, path, 0, &ftFace);
 	if (ftError != FT_Err_Ok)
 	{
 		REFONTER_ERROR("FT load face error: %d\n", ftError)
@@ -206,7 +223,8 @@ refonter_status refonter_create_font_blob(unsigned char** blob, unsigned int* bl
 		// Load char outline
 		FT_Outline outline;
 		int width;
-		rfError = load_char_outline(ftFace, char_order[i], &outline, &width);
+		int height;
+		rfError = load_char_outline(ftFace, char_order[i], &outline, &width, &height);
 
 		if (rfError != kStatusOk)
 		{
@@ -220,7 +238,7 @@ refonter_status refonter_create_font_blob(unsigned char** blob, unsigned int* bl
 		num_points += outline.n_points;
 	}
 
-	// COmpute byte size and allocate blob
+	// Compute byte size and allocate blob
 	unsigned int size_fonts = num_fonts*sizeof(refonter_font);
 	unsigned int size_chars = num_chars*sizeof(refonter_char);
 	unsigned int size_contours = num_contours*sizeof(refonter_contour);
@@ -246,7 +264,8 @@ refonter_status refonter_create_font_blob(unsigned char** blob, unsigned int* bl
 		// Load char outline
 		FT_Outline outline;
 		int width;
-		rfError = load_char_outline(ftFace, char_order[i], &outline, &width); // we don't check error here since it succeeded previously
+		int height;
+		rfError = load_char_outline(ftFace, char_order[i], &outline, &width, &height); // we don't check error here since it succeeded previously
 
 		// Apppend char to blob
 		unsigned int num_contours = get_num_contours(outline);
@@ -256,6 +275,7 @@ refonter_status refonter_create_font_blob(unsigned char** blob, unsigned int* bl
 		cur_char->num_contours = num_contours;
 		cur_char->contours     = cur_contour;
 		cur_char->width        = width;
+		cur_char->height       = height;
 		cur_char++;
 
 		// For each contour in char
@@ -289,7 +309,6 @@ refonter_status refonter_create_font_blob(unsigned char** blob, unsigned int* bl
 						cur_point->flags = kPointTypeOffCubic;
 						break;
 				}
-
 				cur_point++;
 			}
 		}

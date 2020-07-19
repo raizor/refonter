@@ -138,6 +138,7 @@ static const char *strs[] =
 	"glUniform3f",
 	"glClientActiveTexture",
 	"glUniform1fv",
+	"glDeleteBuffers",
 	
 #if _DEBUG
 
@@ -199,10 +200,14 @@ static const char *strs[] =
 
 #define glUniform1fv ((PFNGLUNIFORM1FVPROC)myglfunc[41])		// 34
 
+#define glDeleteBuffers ((PFNGLDELETEBUFFERSPROC)myglfunc[42])		// 34
+
+
+
 
 #if _DEBUG	
-#define glDeleteShader              ((PFNGLDELETESHADERPROC)myglfunc[42])					// 35
-#define glDetachShader				((PFNGLDETACHSHADERPROC)myglfunc[43])					// 36
+#define glDeleteShader              ((PFNGLDELETESHADERPROC)myglfunc[43])					// 35
+#define glDetachShader				((PFNGLDETACHSHADERPROC)myglfunc[44])					// 36
 #endif
 
 void InitGlExtensions();

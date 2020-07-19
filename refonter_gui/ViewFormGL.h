@@ -28,7 +28,7 @@ namespace Win
         // update controls on the form
         void animate(bool flag);
         void updateTrackbars(HWND handle, int position);
-		int GetFontComboIndex();
+		WindowsFont* GetSelectedFont();
 		WindowsFontList* FontList;
 
     protected:
