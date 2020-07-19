@@ -15,9 +15,11 @@
 #define IDC_GREEN                       1008
 #define IDC_COMBO_FONT                  1008
 #define IDC_BLUE                        1009
-#define IDC_BUTTON1                     1009
 #define IDC_BUTTON_SELECT_FONT          1009
 #define IDC_STATUSBAR                   1010
+#define IDC_RESOLUTION                  1010
+#define IDC_RESOLUTION2                 1011
+#define IDC_POINTSIZE                   1011
 #define ID_FILE_EXIT                    40001
 
 // Next default values for new objects
@@ -26,7 +28,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        105
 #define _APS_NEXT_COMMAND_VALUE         40002
-#define _APS_NEXT_CONTROL_VALUE         1010
+#define _APS_NEXT_CONTROL_VALUE         1011
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

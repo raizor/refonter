@@ -42,7 +42,10 @@ namespace Win
         Win::Trackbar trackbarRed;
         Win::Trackbar trackbarGreen;
         Win::Trackbar trackbarBlue;
+		
 		Win::ComboBox comboFont;
+		Win::Trackbar trackbarResolution;
+		Win::Trackbar trackbarPointSize;
 		
     };
 }

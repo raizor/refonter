@@ -32,7 +32,9 @@ ModelGL::ModelGL() : windowWidth(0), windowHeight(0), animateFlag(false),
 	// todo clean this up
 	WindowsFont* f = new WindowsFont(L"Cheri", L"cheri.ttf");
 	winFont = f;
-	renderMode = kRenderMode2D;
+	renderMode = kRenderMode3D;
+	fontResolution = 1;
+	fontPointSize = 1;
 }
 
 
@@ -174,6 +176,9 @@ void ModelGL::generateFont() {
 	string your_wchar_in_str(your_wchar_in_ws.begin(), your_wchar_in_ws.end());
 	const char* font_path = your_wchar_in_str.c_str(); //wctomb(path, winFont.Path.c_str());
 	char* chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789,.'-!() ";
+	//int point_size = 16;
+	//int resolution = 72;
+
 	int point_size = 16;
 	int resolution = 72;
 
@@ -191,7 +196,7 @@ void ModelGL::generateFont() {
 		
 		delta_encode_points(p_font);
 		transform_pointers_to_offsets(p_font);	
-		font = new Font((unsigned char*)blob, 1.0);
+		font = new Font((unsigned char*)blob, true, 1.0);
 	}
 }
 
@@ -254,7 +259,6 @@ void ModelGL::draw2D()
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glLoadIdentity();
-	glOrtho(0, 1, 0, 1, -1, 1);
 
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
@@ -288,7 +292,20 @@ void ModelGL::draw2D()
 
 void ModelGL::draw3D()
 {
+	// TODO: deactivate all textures and program
 
+	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_CULL_FACE);
+	glEnable(GL_BLEND);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	glDisable(GL_LIGHTING);
+	glDisable(GL_LIGHT0);
+
+	// Draw black rects
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+
+	drawFontPreview(font);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -304,12 +321,34 @@ void ModelGL::draw()
     // save the initial ModelView matrix before modifying ModelView matrix
     glPushMatrix();
 
+	int drawMode2 = 0;
+
+	if (drawMode2 == 0)           // fill mode
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_CULL_FACE);
+	}
+	else if (drawMode2 == 1)      // wireframe mode
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		glDisable(GL_DEPTH_TEST);
+		glDisable(GL_CULL_FACE);
+	}
+	else if (drawMode2 == 2)      // point mode
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
+		glDisable(GL_DEPTH_TEST);
+		glDisable(GL_CULL_FACE);
+	}
+
 	switch (renderMode)
 	{
 	case kRenderMode2D:
 		draw2D();
 		break;
 	case kRenderMode3D:
+		draw3D();
 		break;
 	default:
 		DebugBreak();
@@ -538,27 +577,12 @@ void ModelGL::setDrawMode(int mode)
 ///////////////////////////////////////////////////////////////////////////////
 // change background colour, the value should be between 0 and 1
 ///////////////////////////////////////////////////////////////////////////////
-void ModelGL::setBackgroundRed(float value)
+void ModelGL::setResolution(int value)
 {
-    if(bgColor[0] != value)
-    {
-        bgColor[0] = value;
-        bgFlag = true;
-    }
+	fontResolution = (int)value;
 }
-void ModelGL::setBackgroundGreen(float value)
+
+void ModelGL::setPointSize(int value)
 {
-    if(bgColor[1] != value)
-    {
-        bgColor[1] = value;
-        bgFlag = true;
-    }
-}
-void ModelGL::setBackgroundBlue(float value)
-{
-    if(bgColor[2] != value)
-    {
-        bgColor[2] = value;
-        bgFlag = true;
-    }
+	fontPointSize = (int)value;
 }

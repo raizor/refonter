@@ -44,6 +44,8 @@ void ViewFormGL::initControls(HWND handle)
     trackbarGreen.set(handle, IDC_GREEN);
     trackbarBlue.set(handle, IDC_BLUE);
 	comboFont.set(handle, IDC_COMBO_FONT);
+	trackbarResolution.set(handle, IDC_RESOLUTION);
+	trackbarPointSize.set(handle, IDC_POINTSIZE);
 	
     // initial state
     radioFill.check();
@@ -54,6 +56,11 @@ void ViewFormGL::initControls(HWND handle)
     trackbarBlue.setRange(0, 255);
     trackbarBlue.setPos(0);
 	comboFont.setCurrentSelection(0);
+
+	trackbarResolution.setRange(1, 100);
+	trackbarResolution.setPos(0);
+	trackbarPointSize.setRange(1, 100);
+	trackbarPointSize.setPos(0);
 
 	FontList = new WindowsFontList();
 
@@ -83,18 +90,14 @@ void ViewFormGL::animate(bool flag)
 ///////////////////////////////////////////////////////////////////////////////
 void ViewFormGL::updateTrackbars(HWND handle, int position)
 {
-    if(handle == trackbarRed.getHandle())
-    {
-        trackbarRed.setPos(position);
-    }
-    else if(handle == trackbarGreen.getHandle())
-    {
-        trackbarGreen.setPos(position);
-    }
-    else if(handle == trackbarBlue.getHandle())
-    {
-        trackbarBlue.setPos(position);
-    }
+	if (handle == trackbarResolution.getHandle())
+	{
+		trackbarResolution.setPos(position);
+	}
+	else if (handle == trackbarPointSize.getHandle())
+	{
+		trackbarPointSize.setPos(position);
+	}
 }
 
 WindowsFont* ViewFormGL::GetSelectedFont() {

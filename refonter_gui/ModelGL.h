@@ -52,14 +52,15 @@ public:
     void zoomCamera(int dist);
     void zoomCameraByWheel(float delta);
 
-    void setBackgroundRed(float value);             // change background colour
-    void setBackgroundGreen(float value);
-    void setBackgroundBlue(float value);
+    void setResolution(int value);             // change background colour
+    void setPointSize(int value);
 
 	void generateFont();
 	void drawFontPreview(Font* font);
 	bool shouldRegenerateFont;
 	WindowsFont* winFont;
+	int fontResolution;
+	int fontPointSize;
 	unsigned int renderMode;
 
 protected:

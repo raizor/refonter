@@ -137,12 +137,10 @@ LRESULT ControllerFormGL::hScroll(WPARAM wParam, LPARAM lParam)
         {
         case TB_THUMBTRACK:     // user dragged the slider
             view->updateTrackbars(trackbarHandle, position);
-            if(trackbarId == IDC_RED)
-                model->setBackgroundRed(position / 255.0f);
+            if(trackbarId == IDC_RESOLUTION)
+                model->setResolution(position);
             else if(trackbarId == IDC_GREEN)
-                model->setBackgroundGreen(position / 255.0f);
-            else if(trackbarId == IDC_BLUE)
-                model->setBackgroundBlue(position / 255.0f);
+                model->setPointSize(position);
             break;
 
         case TB_THUMBPOSITION:  // by WM_LBUTTONUP
@@ -169,12 +167,10 @@ LRESULT ControllerFormGL::hScroll(WPARAM wParam, LPARAM lParam)
         case TB_ENDTRACK:       // by WM_KEYUP (User release a key.)
             position = (int)::SendMessage(trackbarHandle, TBM_GETPOS, 0, 0);
             view->updateTrackbars(trackbarHandle, position);
-            if(trackbarId == IDC_RED)
-                model->setBackgroundRed(position / 255.0f);
-            else if(trackbarId == IDC_GREEN)
-                model->setBackgroundGreen(position / 255.0f);
-            else if(trackbarId == IDC_BLUE)
-                model->setBackgroundBlue(position / 255.0f);
+            if(trackbarId == IDC_RESOLUTION)
+                model->setResolution(position);
+            else if(trackbarId == IDC_POINTSIZE)
+				model->setPointSize(position);
             break;
         }
     }
