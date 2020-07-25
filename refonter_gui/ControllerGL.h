@@ -45,6 +45,7 @@ namespace Win
         LRESULT mouseHover(int state, int x, int y);    // for WM_MOUSEHOVER:state, x, y
         LRESULT mouseLeave();                           // for WM_MOUSELEAVE
         LRESULT mouseWheel(int state, int delta, int x, int y); // for WM_MOUSEWHEEL:state, delta, x, y
+		refonter_tesselation_settings* tesselation_settings;
 
     private:
         void runThread();                               // thread for OpenGL rendering
@@ -56,6 +57,7 @@ namespace Win
         std::thread glThread;                           // opengl rendering thread object
         volatile bool loopFlag;                         // rendering loop flag
         bool mouseHovered;                              // mouse hover flag
+		
     };
 }
 

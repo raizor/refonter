@@ -27,6 +27,7 @@ using namespace Win;
 ControllerGL::ControllerGL(ModelGL* model, ViewGL* view) : model(model), view(view),
                                                            loopFlag(false)
 {
+	tesselation_settings = new refonter_tesselation_settings();
 }
 
 
@@ -97,7 +98,9 @@ void ControllerGL::runThread()
     ::wglMakeCurrent(view->getDC(), view->getRC());
 
     // initialize OpenGL states
-    model->init();
+	if (tesselation_settings)
+	tesselation_settings = new refonter_tesselation_settings();
+    model->init(tesselation_settings);
     Win::log(L"Initialized OpenGL states.");
 	/*
     // load bmp and create texture

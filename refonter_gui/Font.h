@@ -20,9 +20,10 @@ class Font
 public:
 	static refonter_font* font;
 	static refonter_tesselation_object* tesselated_chars;
+	static refonter_tesselation_settings* settings;
 	static GLuint* bufferids;
 		
-	Font(unsigned char* font_blob, bool make3d, double subdivision_tolerance)
+	Font(unsigned char* font_blob, refonter_tesselation_settings* settings, double subdivision_tolerance)
 	{
 		if (Font::bufferids)
 		{
@@ -37,10 +38,11 @@ public:
 			delete(Font::tesselated_chars);
 				
 		// Init and tesselate
+		this->settings = settings;
 		font = refonter_init_blob(font_blob);
 
 		tesselated_chars = new refonter_tesselation_object[font->num_chars]; // create one tesselation object per char
-		refonter_glu_tesselate(font, tesselated_chars, subdivision_tolerance);
+		refonter_glu_tesselate(font, tesselated_chars, *settings, subdivision_tolerance);
 
 		// Generate buffer ids
 		bufferids = new GLuint[font->num_chars];
@@ -50,13 +52,14 @@ public:
 		for (uint32_t i = 0; i < font->num_chars; i++)
 		{
 
-			if (make3d)
+			if (settings->font_is_3d)
 			{
 			}
 
 			// Generate array buffers, one per character
 			glBindBuffer(GL_ARRAY_BUFFER, bufferids[i]);
 			glBufferData(GL_ARRAY_BUFFER, tesselated_chars[i].num_triangle_vertices * sizeof(refonter_vertex), tesselated_chars[i].triangle_vertices, GL_STATIC_DRAW);
+			/*
 			if (make3d)
 			{
 				for (int i = 0; i < tesselated_chars[i].num_triangle_vertices; i++)
@@ -66,6 +69,7 @@ public:
 				}
 				glBufferData(GL_ARRAY_BUFFER, tesselated_chars[i].num_triangle_vertices * sizeof(refonter_vertex), tesselated_chars[i].triangle_vertices, GL_STATIC_DRAW);
 			}
+			*/
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 		}
 

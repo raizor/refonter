@@ -9,12 +9,14 @@
 // The GLU tesselator doesn't provide a way to keep track of the current object, so we do it manually
 refonter_tesselation_object* current_tesselator = NULL;
 
-static void tessobj_init(refonter_tesselation_object* t, GLUtesselator* glu_tess_obj)
+static void tessobj_init(refonter_tesselation_object* t, GLUtesselator* glu_tess_obj, refonter_tesselation_settings settings)
 {
 	t->num_contour_vertices  = 0;
 	t->num_triangle_vertices = 0;
 
 	t->glu_tess_obj = glu_tess_obj;
+	t->glu_processing_edge_flag = 0;
+	t->settings = settings;
 }
 
 static refonter_vertex* tessobj_store_contour_vertex(refonter_tesselation_object* tess_obj, refonter_vec3 pos, refonter_vec3 normal)
@@ -109,6 +111,7 @@ static void __stdcall callback_begin_primitive(GLenum prim_type)
 static void __stdcall callback_end_primitive(void)
 {
 	// Do nothing here at the moment
+
 }
 
 static void __stdcall callback_add_vertex(GLdouble* vertices)
@@ -199,10 +202,15 @@ static void __stdcall callback_combine(GLdouble coords[3],
 	}
 }
 
+static void __stdcall callback_edge(GLboolean flag)
+{
+	current_tesselator->glu_processing_edge_flag = flag;
+}
+
 // Just a simple function to wrap the point index around the contour
 static const refonter_point get_point(refonter_contour* contour, uint32_t i) { return (contour->points[i % contour->num_points]); }
 
-void refonter_glu_tesselate(refonter_font* cur_font, refonter_tesselation_object* tess_objects, double flatness_tolerance)
+void refonter_glu_tesselate(refonter_font* cur_font, refonter_tesselation_object* tess_objects, refonter_tesselation_settings settings, double flatness_tolerance)
 {
 	unsigned int character, contour;
 	refonter_char* cur_char;
@@ -218,19 +226,20 @@ void refonter_glu_tesselate(refonter_font* cur_font, refonter_tesselation_object
 	gluTessNormal(glu_tess, 0.0, 0.0, 1.0);
 
 	// Setup callbacks for tesselator
-	gluTessCallback(glu_tess, GLU_TESS_VERTEX,  (GLvoid (__stdcall *) ()) &callback_add_vertex);
-	gluTessCallback(glu_tess, GLU_TESS_BEGIN,   (GLvoid (__stdcall *) ()) &callback_begin_primitive);
-	gluTessCallback(glu_tess, GLU_TESS_END,     (GLvoid (__stdcall *) ()) &callback_end_primitive); // currently not used
-	gluTessCallback(glu_tess, GLU_TESS_ERROR,   (GLvoid (__stdcall *) ()) &callback_error);
-	gluTessCallback(glu_tess, GLU_TESS_COMBINE, (GLvoid (__stdcall *) ()) &callback_combine);
-
+	gluTessCallback(glu_tess, GLU_TESS_VERTEX,    (GLvoid (__stdcall *) ()) &callback_add_vertex);
+	gluTessCallback(glu_tess, GLU_TESS_BEGIN,     (GLvoid (__stdcall *) ()) &callback_begin_primitive);
+	gluTessCallback(glu_tess, GLU_TESS_END,       (GLvoid (__stdcall *) ()) &callback_end_primitive); // currently not used
+	gluTessCallback(glu_tess, GLU_TESS_ERROR,     (GLvoid (__stdcall *) ()) &callback_error);
+	gluTessCallback(glu_tess, GLU_TESS_COMBINE,   (GLvoid (__stdcall *) ()) &callback_combine);
+	gluTessCallback(glu_tess, GLU_TESS_EDGE_FLAG, (GLvoid (__stdcall *) ()) &callback_edge);
+	
 	// Iterate over all characters in font
 	for (character = 0; character < cur_font->num_chars; character++)
 	{
 		cur_char = &(cur_font->chars[character]);
 
 		// Init tesselator object for char
-		tessobj_init(&(tess_objects[character]), glu_tess);
+		tessobj_init(&(tess_objects[character]), glu_tess, settings);
 		current_tesselator = &tess_objects[character];
 		current_tesselator->flatness_tolerance = flatness_tolerance;
 

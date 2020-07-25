@@ -54,8 +54,10 @@ ModelGL::~ModelGL()
 ///////////////////////////////////////////////////////////////////////////////
 // initialize OpenGL states and scene
 ///////////////////////////////////////////////////////////////////////////////
-void ModelGL::init()
+void ModelGL::init(refonter_tesselation_settings* tesselation_settings)
 {
+	this->tesselation_settings = tesselation_settings;
+
     glShadeModel(GL_SMOOTH);                        // shading mathod: GL_SMOOTH or GL_FLAT
     glPixelStorei(GL_UNPACK_ALIGNMENT, 4);          // 4-byte pixel alignment
 
@@ -196,7 +198,7 @@ void ModelGL::generateFont() {
 		
 		delta_encode_points(p_font);
 		transform_pointers_to_offsets(p_font);	
-		font = new Font((unsigned char*)blob, true, 1.0);
+		font = new Font((unsigned char*)blob, tesselation_settings, 1.0);
 	}
 }
 
@@ -293,6 +295,9 @@ void ModelGL::draw2D()
 void ModelGL::draw3D()
 {
 	// TODO: deactivate all textures and program
+	glTranslatef(0, 0, cameraDistance);
+	glRotatef(cameraAngleX, 1, 0, 0);   // pitch
+	glRotatef(cameraAngleY, 0, 1, 0);   // heading
 
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);

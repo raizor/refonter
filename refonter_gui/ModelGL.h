@@ -33,7 +33,7 @@ public:
     ModelGL();
     ~ModelGL();
 
-    void init();                                    // initialize OpenGL states
+    void init(refonter_tesselation_settings* tesselation_settings);                                    // initialize OpenGL states
     void createTexture(int width, int height, int bitCount, const void* data);
     void setCamera(float posX, float posY, float posZ, float targetX, float targetY, float targetZ);
     void setViewport(int width, int height);
@@ -62,6 +62,7 @@ public:
 	int fontResolution;
 	int fontPointSize;
 	unsigned int renderMode;
+	refonter_tesselation_settings* tesselation_settings;
 
 protected:
 
