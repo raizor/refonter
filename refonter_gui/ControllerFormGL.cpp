@@ -112,7 +112,16 @@ LRESULT ControllerFormGL::command(int id, int command, LPARAM msg)
 			model->shouldRegenerateFont = true;
 		}
 		break;
+
+	case IDC_3D:
+		if (command == BN_CLICKED)
+		{
+			model->tesselation_settings->font_is_3d = !model->tesselation_settings->font_is_3d;
+		}
+		break;
 	}
+
+
 
     return 0;
 }
@@ -137,10 +146,10 @@ LRESULT ControllerFormGL::hScroll(WPARAM wParam, LPARAM lParam)
         {
         case TB_THUMBTRACK:     // user dragged the slider
             view->updateTrackbars(trackbarHandle, position);
-            if(trackbarId == IDC_RESOLUTION)
-                model->setResolution(position);
-            else if(trackbarId == IDC_GREEN)
-                model->setPointSize(position);
+			if (trackbarId == IDC_RESOLUTION)
+				model->setResolution(position);
+			else if (trackbarId == IDC_SLIDERDEPTH)
+				model->tesselation_settings->depth = 10.0f * position;
             break;
 
         case TB_THUMBPOSITION:  // by WM_LBUTTONUP

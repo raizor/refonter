@@ -46,21 +46,30 @@ void ViewFormGL::initControls(HWND handle)
 	comboFont.set(handle, IDC_COMBO_FONT);
 	trackbarResolution.set(handle, IDC_RESOLUTION);
 	trackbarPointSize.set(handle, IDC_POINTSIZE);
+	trackbarDepth.set(handle, IDC_DEPTH);
+	check3d.set(handle, IDC_3D);
 	
     // initial state
     radioFill.check();
+
     trackbarRed.setRange(0, 255);
     trackbarRed.setPos(0);
+
     trackbarGreen.setRange(0, 255);
     trackbarGreen.setPos(0);
+
     trackbarBlue.setRange(0, 255);
     trackbarBlue.setPos(0);
+	
 	comboFont.setCurrentSelection(0);
 
 	trackbarResolution.setRange(1, 100);
 	trackbarResolution.setPos(0);
+	
 	trackbarPointSize.setRange(1, 100);
 	trackbarPointSize.setPos(0);
+
+	trackbarDepth.setRange(-10, 10);
 
 	FontList = new WindowsFontList();
 

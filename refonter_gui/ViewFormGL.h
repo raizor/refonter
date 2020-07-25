@@ -42,10 +42,12 @@ namespace Win
         Win::Trackbar trackbarRed;
         Win::Trackbar trackbarGreen;
         Win::Trackbar trackbarBlue;
+		Win::CheckBox check3d;
 		
 		Win::ComboBox comboFont;
 		Win::Trackbar trackbarResolution;
 		Win::Trackbar trackbarPointSize;
+		Win::Trackbar trackbarDepth;
 		
     };
 }
