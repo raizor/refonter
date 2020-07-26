@@ -6,12 +6,13 @@ extern "C" {
 
 // We can't know beforehand how many vertices we'll need per character, so we hope this is enough. 
 // We could use a growable array, but that would incur some code size and complexity
-#define kMaxTesselatorVertices 8192
+#define kMaxTesselatorVertices 8192*2
 
 typedef struct
 {
 	GLboolean font_is_3d;
 	float depth;
+	int rendering_pass_num;
 } refonter_tesselation_settings;
 
 typedef struct 
@@ -23,6 +24,7 @@ typedef struct
 
 	unsigned int num_contour_vertices;
 	unsigned int num_triangle_vertices;
+	unsigned int num_edge_vertices;
 
 	refonter_tesselation_settings settings;
 
@@ -43,11 +45,11 @@ typedef struct
 
 	// Other data
 	double flatness_tolerance; // Criteria for ending bezier subdivision
-	int font_is_3d;
 
 }refonter_tesselation_object;
 
 void refonter_glu_tesselate(refonter_font* p_font, refonter_tesselation_object* tess_objs, refonter_tesselation_settings settings, double flatness_tolerance);
+void refonter_create_back_and_sides(refonter_font* cur_font, refonter_tesselation_object* tess_objs, refonter_tesselation_settings settings);
 
 #ifdef __cplusplus
 }

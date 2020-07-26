@@ -13,6 +13,7 @@ static void tessobj_init(refonter_tesselation_object* t, GLUtesselator* glu_tess
 {
 	t->num_contour_vertices  = 0;
 	t->num_triangle_vertices = 0;
+	t->num_edge_vertices = 0;
 
 	t->glu_tess_obj = glu_tess_obj;
 	t->glu_processing_edge_flag = 0;
@@ -30,13 +31,18 @@ static refonter_vertex* tessobj_store_contour_vertex(refonter_tesselation_object
 static void tessobj_add_contour_vertex(refonter_tesselation_object* tess_obj, refonter_vec3 pos, refonter_vec3 normal)
 {
 	refonter_vertex* v = tessobj_store_contour_vertex(tess_obj, pos, normal);
-
+	tess_obj->edge_vertices[tess_obj->num_edge_vertices++] = *v;
 	gluTessVertex(tess_obj->glu_tess_obj, (GLdouble*)&pos, (void*)v);
 }
 
 static void current_tesselator_add_triangle_vertex(const refonter_vertex v)
 {
 	current_tesselator->triangle_vertices[current_tesselator->num_triangle_vertices++] = v;
+}
+
+static void current_tesselator_add_edge_vertex(const refonter_vertex v)
+{
+	current_tesselator->edge_vertices[current_tesselator->num_edge_vertices++] = v;
 }
 
 static double fabsd(const double x) // We provide this function so we don't depend on libc
@@ -124,6 +130,10 @@ static void __stdcall callback_add_vertex(GLdouble* vertices)
 	v.normal.y = 0.0;
 	v.normal.z = 1.0;
 
+	if (current_tesselator->glu_processing_edge_flag) {
+		current_tesselator_add_edge_vertex(v);
+	}
+
 	if (current_tesselator->cur_prim_type==GL_TRIANGLES)
 	{
 		current_tesselator_add_triangle_vertex(v);
@@ -210,7 +220,7 @@ static void __stdcall callback_edge(GLboolean flag)
 // Just a simple function to wrap the point index around the contour
 static const refonter_point get_point(refonter_contour* contour, uint32_t i) { return (contour->points[i % contour->num_points]); }
 
-void refonter_glu_tesselate(refonter_font* cur_font, refonter_tesselation_object* tess_objects, refonter_tesselation_settings settings, double flatness_tolerance)
+void refonter_glu_tesselate_internal(refonter_font* cur_font, refonter_tesselation_object* tess_objects, refonter_tesselation_settings settings, double flatness_tolerance, int pass)
 {
 	unsigned int character, contour;
 	refonter_char* cur_char;
@@ -226,12 +236,20 @@ void refonter_glu_tesselate(refonter_font* cur_font, refonter_tesselation_object
 	gluTessNormal(glu_tess, 0.0, 0.0, 1.0);
 
 	// Setup callbacks for tesselator
-	gluTessCallback(glu_tess, GLU_TESS_VERTEX,    (GLvoid (__stdcall *) ()) &callback_add_vertex);
-	gluTessCallback(glu_tess, GLU_TESS_BEGIN,     (GLvoid (__stdcall *) ()) &callback_begin_primitive);
-	gluTessCallback(glu_tess, GLU_TESS_END,       (GLvoid (__stdcall *) ()) &callback_end_primitive); // currently not used
-	gluTessCallback(glu_tess, GLU_TESS_ERROR,     (GLvoid (__stdcall *) ()) &callback_error);
-	gluTessCallback(glu_tess, GLU_TESS_COMBINE,   (GLvoid (__stdcall *) ()) &callback_combine);
-	gluTessCallback(glu_tess, GLU_TESS_EDGE_FLAG, (GLvoid (__stdcall *) ()) &callback_edge);
+	gluTessCallback(glu_tess, GLU_TESS_VERTEX, (GLvoid(__stdcall *) ()) &callback_add_vertex);
+	gluTessCallback(glu_tess, GLU_TESS_COMBINE, (GLvoid(__stdcall *) ()) &callback_combine);
+
+	if (pass == 0)
+	{
+		gluTessCallback(glu_tess, GLU_TESS_BEGIN, (GLvoid(__stdcall *) ()) &callback_begin_primitive);
+		gluTessCallback(glu_tess, GLU_TESS_END, (GLvoid(__stdcall *) ()) &callback_end_primitive); // currently not used
+		gluTessCallback(glu_tess, GLU_TESS_ERROR, (GLvoid(__stdcall *) ()) &callback_error);		
+	}
+	else {
+		// GLU_TESS_EDGE_FLAG will cause the tesselator to only output triangle primitives
+		// we do this only for 3d objects in the second pass to generate the sides of the shape
+		gluTessCallback(glu_tess, GLU_TESS_EDGE_FLAG, (GLvoid(__stdcall *) ()) &callback_edge);
+	}
 	
 	// Iterate over all characters in font
 	for (character = 0; character < cur_font->num_chars; character++)
@@ -306,4 +324,71 @@ void refonter_glu_tesselate(refonter_font* cur_font, refonter_tesselation_object
 	}
 
 	gluDeleteTess(glu_tess);
+}
+
+void refonter_glu_tesselate(refonter_font* cur_font, refonter_tesselation_object* tess_objects, refonter_tesselation_settings settings, double flatness_tolerance)
+{
+	refonter_glu_tesselate_internal(cur_font, tess_objects, settings, flatness_tolerance, 0);
+
+	if (settings.font_is_3d) {
+		// get the edge points
+		//refonter_glu_tesselate_internal(cur_font, tess_objects, settings, flatness_tolerance, 1);
+		// create the back and sides
+		refonter_create_back_and_sides(cur_font, tess_objects, settings);
+	}
+}
+
+
+void refonter_create_back_and_sides(refonter_font* cur_font, refonter_tesselation_object* tess_objects, refonter_tesselation_settings settings) {
+	unsigned int character;
+	refonter_tesselation_object* cur_char;
+
+	// Iterate over all characters in font
+	for (character = 0; character < cur_font->num_chars; character++)
+	{		
+		cur_char = &tess_objects[character];
+		float halfDepth = settings.depth * 0.5f;
+		unsigned int numVertices = cur_char->num_triangle_vertices;
+
+		// pull front face forward
+		for(unsigned int vtx = 0; vtx< numVertices; vtx++){
+			cur_char->triangle_vertices[vtx].pos.z = halfDepth;
+		}
+		
+		// create and push back face back
+		for (unsigned int vtx = 0; vtx < numVertices; vtx++) {		
+			refonter_vertex v = cur_char->triangle_vertices[vtx];
+			v.pos.z = -halfDepth;
+			v.normal.x *= -1;
+			v.normal.y *= -1;
+			v.normal.z *= -1;
+			cur_char->triangle_vertices[cur_char->num_triangle_vertices++] = v;
+		}
+
+		for (unsigned int vtx = 1; vtx < cur_char->num_edge_vertices; vtx++)
+		{
+			refonter_vertex v0 = cur_char->edge_vertices[vtx-1];
+			refonter_vertex v1 = cur_char->edge_vertices[vtx];
+			refonter_vertex v2 = cur_char->edge_vertices[vtx];
+			refonter_vertex v3 = cur_char->edge_vertices[vtx-1];
+
+			v0.pos.z = v1.pos.z = halfDepth;
+			v2.pos.z = v3.pos.z = -halfDepth;
+					   			 
+						
+			// tri 1
+			cur_char->triangle_vertices[cur_char->num_triangle_vertices++] = v0;
+			cur_char->triangle_vertices[cur_char->num_triangle_vertices++] = v1;
+			cur_char->triangle_vertices[cur_char->num_triangle_vertices++] = v3;
+
+			// tri 2
+			cur_char->triangle_vertices[cur_char->num_triangle_vertices++] = v3;
+			cur_char->triangle_vertices[cur_char->num_triangle_vertices++] = v1;
+			cur_char->triangle_vertices[cur_char->num_triangle_vertices++] = v2;
+		}
+
+
+		// create sides
+
+	}
 }

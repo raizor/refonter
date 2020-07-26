@@ -117,6 +117,7 @@ LRESULT ControllerFormGL::command(int id, int command, LPARAM msg)
 		if (command == BN_CLICKED)
 		{
 			model->tesselation_settings->font_is_3d = !model->tesselation_settings->font_is_3d;
+			model->shouldRegenerateFont = true;
 		}
 		break;
 	}
@@ -149,7 +150,8 @@ LRESULT ControllerFormGL::hScroll(WPARAM wParam, LPARAM lParam)
 			if (trackbarId == IDC_RESOLUTION)
 				model->setResolution(position);
 			else if (trackbarId == IDC_SLIDERDEPTH)
-				model->tesselation_settings->depth = 10.0f * position;
+				model->tesselation_settings->depth = 2.0f * position;
+				model->shouldRegenerateFont = true;
             break;
 
         case TB_THUMBPOSITION:  // by WM_LBUTTONUP

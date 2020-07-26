@@ -312,8 +312,7 @@ refonter_status refonter_create_font_blob(unsigned char** blob, unsigned int* bl
 				cur_point++;
 			}
 		}
-	}
-	
+	}	
 	return kStatusOk;
 }
 

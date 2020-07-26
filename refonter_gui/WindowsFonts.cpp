@@ -89,7 +89,7 @@ WindowsFontList::WindowsFontList() {
 
 WindowsFont* WindowsFontList::GetFont(std::wstring name)
 {
-	for (int i = 0; i < fonts.size(); i++)
+	for (unsigned int i = 0; i < fonts.size(); i++)
 	{
 		if (wcscmp(fonts.at(i).Name.c_str(), name.c_str()) == 0) {
 			return &fonts.at(i);
