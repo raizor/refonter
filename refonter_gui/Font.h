@@ -94,7 +94,8 @@ public:
 	}
 
 	void Write(const char* str)
-	{
+	{		
+		float width = GetWidth(str);
 		while (*str)
 		{
 			char c = *str;
@@ -111,7 +112,6 @@ public:
 					glTranslatef(float(font->chars[i].width) / float(kRefonterSubdivision), 0.f, 0.f);
 				}
 			}
-
 			str++;
 		}
 	}
@@ -132,10 +132,8 @@ public:
 					width += float(font->chars[i].width) / 64.f;
 				}
 			}
-
 			str++;
 		}
-
 		return width;
 	}
 };

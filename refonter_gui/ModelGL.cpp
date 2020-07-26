@@ -35,6 +35,7 @@ ModelGL::ModelGL() : windowWidth(0), windowHeight(0), animateFlag(false),
 	renderMode = kRenderMode3D;
 	fontResolution = 1;
 	fontPointSize = 1;
+	cameraDistance = -130;
 }
 
 
@@ -150,7 +151,7 @@ void ModelGL::setViewport(int w, int h)
     float aspectRatio = (float)w / h;
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(60.0f, (float)(w)/h, 0.1f, 150.0f); // FOV, AspectRatio, NearClip, FarClip
+    gluPerspective(60.0f, (float)(w)/h, 0.1f, 300.0f); // FOV, AspectRatio, NearClip, FarClip
 
     // switch to modelview matrix in order to set scene
     glMatrixMode(GL_MODELVIEW);
@@ -202,56 +203,110 @@ void ModelGL::generateFont() {
 	}
 }
 
-void ModelGL::drawFontPreview(Font* font)
-{
-	char* str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890,./,=+-[](){}";
+/*
+	char* strings[6];
+	strings[0] = "ABCDEFGHIJKLMNOPQ";
+	strings[1] = "RSTUVWXYZ";
+	strings[2] = "abcdefghijklmnopq";
+	strings[3] = "rstuvwxyz";
+	strings[4] = "1234567890";
+	strings[5] = ", . / , =+-[]() {}";
+
 	int line = 0;
 	float xpos = 0;
-	float scale = 0.0075f;
+	//float scale = 0.0075f;
 	glPushMatrix();
-	glTranslatef(0, 0.85f, 0);
-	glScalef(scale, scale, scale);
-	while (*str)
+	//glTranslatef(0, 0, -50);
+	//glTranslatef(0, 0.85f, 0);
+	//glScalef(scale, scale, scale);
+
+	float lineWidth = font->GetWidth(strings[0]);
+
+	for (unsigned int line = 0; line < 6; line++)
 	{
-		char c = *str;
-		refonter_coord width = 0;
-		refonter_coord height = 0;
-		float maxHeight = 0;
-
-		for (uint32_t i = 0; i < font->font->num_chars; i++)
+		const char* chr = strings[line];
+		xpos = -lineWidth * 0.5f;
+		glTranslatef(xpos, 0, 0);
+		while (*chr)
 		{
-			// Find letter
-			if (font->font->chars[i].id == c)
+			for (uint32_t i = 0; i < font->font->num_chars; i++)
 			{
-				// Draw letter
-				font->DrawLetter(i);
-
-				// Advance right
-				float charWidth = float(font->font->chars[i].width) / float(kRefonterSubdivision);				
-				float charHeight = float(font->font->chars[i].height) / float(kRefonterSubdivision);	
-
-				if (charHeight > maxHeight)
-					maxHeight = charHeight;
-
-				if (xpos + charWidth < 100)
+				if (font->font->chars[i].id == *chr)
 				{
-					glTranslatef(charWidth, 0.f, 0.f);	
-					xpos += charWidth;
+					// Draw letter
+					//font->DrawLetter(i);
+
+					float charWidth = float(font->font->chars[i].width) / float(kRefonterSubdivision);
+					float charHeight = float(font->font->chars[i].height) / float(kRefonterSubdivision);
 				}
-				else {
-					// next line
-					//glPopMatrix();
-					//glPushMatrix();
-					glTranslatef(-xpos, 0, 0);
-					glTranslatef(0, -maxHeight, 0);
-					//glTranslatef(0, 0.85f - (maxHeight), 0);
-					//glScalef(0.01f, 0.01f, 0.01f);
-					xpos = 0;
-				}
-				
 			}
 		}
-		str++;
+		glTranslatef(-xpos, 0, 0);
+		xpos = -lineWidth * 0.5f;
+	}
+*/
+
+void ModelGL::drawFontPreview(Font* font)
+{
+	char* strings[6];
+	strings[0] = "ABCDEFGHIJKLMNOPQ";
+	strings[1] = "RSTUVWXYZ";
+	strings[2] = "abcdefghijklmnopq";
+	strings[3] = "rstuvwxyz";
+	strings[4] = "1234567890";
+	strings[5] = ", . / , =+-[]() {}";
+
+	char* str = strings[0];
+	int line = 0;
+	float xpos = 0;
+	glPushMatrix();
+	glTranslatef(0, 0, 0);
+
+	float maxHeight = 0;
+
+	for (uint32_t i = 0; i < font->font->num_chars; i++)
+	{
+		float charHeight = float(font->font->chars[i].height) / float(kRefonterSubdivision);
+		if (charHeight > maxHeight)
+		{
+			maxHeight = charHeight;
+		}
+	}
+
+	glTranslatef(0, (maxHeight * 2), 0);
+
+	float lineWidth = font->GetWidth(strings[0]);
+	for (unsigned int line = 0; line < 6; line++)
+	{
+		str = strings[line];
+		xpos = -(lineWidth * 0.5f);
+		glTranslatef(xpos, 0, 0);
+
+		while (*str)
+		{
+			char c = *str;
+			refonter_coord width = 0;
+			refonter_coord height = 0;			
+
+			for (uint32_t i = 0; i < font->font->num_chars; i++)
+			{
+				// Find letter
+				if (font->font->chars[i].id == c)
+				{
+					// Draw letter
+					font->DrawLetter(i);
+
+					// Advance right
+					float charWidth = float(font->font->chars[i].width) / float(kRefonterSubdivision);
+
+					glTranslatef(charWidth, 0.f, 0.f);
+					xpos += charWidth;
+
+				}
+			}
+			str++;
+		}
+		glTranslatef(-xpos, -maxHeight, 0);
 	}
 	glPopMatrix();
 }
@@ -270,13 +325,13 @@ void ModelGL::draw2D()
 
 	// TODO: deactivate all textures and program
 
-	glDisable(GL_DEPTH_TEST);
-	glDisable(GL_CULL_FACE);
+	//glDisable(GL_DEPTH_TEST);
+	//glDisable(GL_CULL_FACE);
 	glEnable(GL_BLEND);
 	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	glDisable(GL_LIGHTING);
-	glDisable(GL_LIGHT0);
+	//glDisable(GL_LIGHTING);
+	//glDisable(GL_LIGHT0);
 
 	// Draw black rects
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
@@ -299,13 +354,13 @@ void ModelGL::draw3D()
 	glRotatef(cameraAngleX, 1, 0, 0);   // pitch
 	glRotatef(cameraAngleY, 0, 1, 0);   // heading
 
-	glDisable(GL_DEPTH_TEST);
-	glDisable(GL_CULL_FACE);
+	//glDisable(GL_DEPTH_TEST);
+	//glDisable(GL_CULL_FACE);
 	glEnable(GL_BLEND);
 	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	glDisable(GL_LIGHTING);
-	glDisable(GL_LIGHT0);
+	//glDisable(GL_LIGHTING);
+	//glDisable(GL_LIGHT0);
 
 	// Draw black rects
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
