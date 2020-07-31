@@ -21,6 +21,10 @@ refonter_vec3 refonter_zero_vertex(void);
 refonter_vec3 refonter_vertex_minus(const refonter_vec3 p1, const refonter_vec3 p2);
 refonter_vec3 refonter_vertex_plus(const refonter_vec3 p1, const refonter_vec3 p2);
 refonter_vec3 refonter_vertex_mid(const refonter_vec3 p1, const refonter_vec3 p2);
+refonter_vec3 refonter_vertex_cross(const refonter_vec3 p1, const refonter_vec3 p2);
+refonter_vec3 refonter_vertex_mul(const refonter_vec3 p1, const refonter_vec3 p2);
+refonter_vec3 refonter_vertex_mul_val(const refonter_vec3 p1, double amount);
+refonter_vec3 refonter_vertex_normalize(const refonter_vec3 p1);
 
 #ifdef __cplusplus
 }

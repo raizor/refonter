@@ -32,10 +32,9 @@ ModelGL::ModelGL() : windowWidth(0), windowHeight(0), animateFlag(false),
 	// todo clean this up
 	WindowsFont* f = new WindowsFont(L"Cheri", L"cheri.ttf");
 	winFont = f;
-	renderMode = kRenderMode3D;
 	fontResolution = 1;
 	fontPointSize = 1;
-	cameraDistance = -130;
+	cameraDistance = -30;
 }
 
 
@@ -93,6 +92,8 @@ void ModelGL::init(refonter_tesselation_settings* tesselation_settings)
     glMaterialfv(GL_FRONT, GL_DIFFUSE, matDiffuse);
     glMaterialfv(GL_FRONT, GL_SPECULAR, matSpecular);
     glMaterialfv(GL_FRONT, GL_SHININESS, matShininess);
+
+	glShadeModel(GL_SMOOTH);
 	
 	shouldRegenerateFont = true;	
 }
@@ -113,10 +114,17 @@ void ModelGL::initLights()
     glLightfv(GL_LIGHT0, GL_SPECULAR, lightKs);
 
     // position the light
-    float lightPos[4] = {-10, 0, 5, 0};
+    float lightPos[4] = {0, 0, 5, 0};
     glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
 
     glEnable(GL_LIGHT0);                            // MUST enable each light source after configuration
+
+	/*
+	glGenBuffers(1, &cubeBufferId);
+	glBindBuffer(GL_ARRAY_BUFFER, cubeBufferId);
+	glBufferData(GL_ARRAY_BUFFER, cubeVerts, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	*/
 }
 
 
@@ -203,48 +211,81 @@ void ModelGL::generateFont() {
 	}
 }
 
-/*
-	char* strings[6];
-	strings[0] = "ABCDEFGHIJKLMNOPQ";
-	strings[1] = "RSTUVWXYZ";
-	strings[2] = "abcdefghijklmnopq";
-	strings[3] = "rstuvwxyz";
-	strings[4] = "1234567890";
-	strings[5] = ", . / , =+-[]() {}";
-
-	int line = 0;
-	float xpos = 0;
-	//float scale = 0.0075f;
+void ModelGL::drawCube() {
 	glPushMatrix();
-	//glTranslatef(0, 0, -50);
-	//glTranslatef(0, 0.85f, 0);
-	//glScalef(scale, scale, scale);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_NORMAL_ARRAY);
+	glVertexPointer(3, GL_FLOAT, 6 * sizeof(float), cubeVerts + 0);
+	glNormalPointer(GL_FLOAT, 6 * sizeof(float), cubeVerts + 3);
 
-	float lineWidth = font->GetWidth(strings[0]);
+	glPushMatrix();
+	//glScalef(0.25f, 0.25f, 0.25f);
+	//glTranslatef(cube.x, cube.y, cube.z);
+	//shaderPass->SetActive(true);
+	glDrawElements(GL_QUADS, 6 * 4, GL_UNSIGNED_INT, cubeIndices);
 
-	for (unsigned int line = 0; line < 6; line++)
+	//glTranslatef(1.0, 0.0, 0.0);
+
+	//glDrawElements( GL_QUADS, 6*4, GL_UNSIGNED_INT, cubeIndices );
+	//shaderPass->SetActive(false);
+	glPopMatrix();
+
+	glDisableClientState(GL_NORMAL_ARRAY);
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glPopMatrix();
+}
+
+void ModelGL::drawStringPreview(Font* font, char* str) {
+
+	glPushMatrix();
+
+	float textWidth = 0;
+	float textHeight = 0;
+	char* str2 = str;
+	while (*str2)
 	{
-		const char* chr = strings[line];
-		xpos = -lineWidth * 0.5f;
-		glTranslatef(xpos, 0, 0);
-		while (*chr)
+		char c = *str2;
+		for (uint32_t i = 0; i < font->font->num_chars; i++)
 		{
-			for (uint32_t i = 0; i < font->font->num_chars; i++)
+			// Find letter
+			if (font->font->chars[i].id == c)
 			{
-				if (font->font->chars[i].id == *chr)
-				{
-					// Draw letter
-					//font->DrawLetter(i);
+				float charWidth = float(font->font->chars[i].width) / float(kRefonterSubdivision);
+				float charHeight = float(font->font->chars[i].height) / float(kRefonterSubdivision);
 
-					float charWidth = float(font->font->chars[i].width) / float(kRefonterSubdivision);
-					float charHeight = float(font->font->chars[i].height) / float(kRefonterSubdivision);
-				}
+				textWidth += charWidth;
+				if (charHeight > textHeight)
+					textHeight = charHeight;
 			}
 		}
-		glTranslatef(-xpos, 0, 0);
-		xpos = -lineWidth * 0.5f;
+		str2++;
 	}
-*/
+
+	glTranslatef(-(0.5f*textWidth), -(0.25f*textHeight), 0.0f);
+
+	while (*str)
+	{
+		char c = *str;
+
+		for (uint32_t i = 0; i < font->font->num_chars; i++)
+		{
+			// Find letter
+			if (font->font->chars[i].id == c)
+			{
+				// Draw letter
+				font->DrawLetter(i);
+
+				// Advance right
+				float charWidth = float(font->font->chars[i].width) / float(kRefonterSubdivision);
+				float charHeight = float(font->font->chars[i].height) / float(kRefonterSubdivision);
+
+				glTranslatef(charWidth, 0.f, 0.f);
+			}
+		}
+		str++;
+	}
+	glPopMatrix();
+}
 
 void ModelGL::drawFontPreview(Font* font)
 {
@@ -357,7 +398,7 @@ void ModelGL::draw3D()
 	//glDisable(GL_DEPTH_TEST);
 	//glDisable(GL_CULL_FACE);
 	glEnable(GL_BLEND);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	//glDisable(GL_LIGHTING);
 	//glDisable(GL_LIGHT0);
@@ -365,7 +406,9 @@ void ModelGL::draw3D()
 	// Draw black rects
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
-	drawFontPreview(font);
+	//drawFontPreview(font);
+	drawStringPreview(font, "ABCD");
+	//drawCube();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -387,7 +430,7 @@ void ModelGL::draw()
 	{
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		glEnable(GL_DEPTH_TEST);
-		glEnable(GL_CULL_FACE);
+		glDisable(GL_CULL_FACE);
 	}
 	else if (drawMode2 == 1)      // wireframe mode
 	{
@@ -402,19 +445,23 @@ void ModelGL::draw()
 		glDisable(GL_CULL_FACE);
 	}
 
-	switch (renderMode)
+	if (tesselation_settings->font_is_3d)
 	{
-	case kRenderMode2D:
-		draw2D();
-		break;
-	case kRenderMode3D:
 		draw3D();
-		break;
-	default:
-		DebugBreak();
+	}
+	else {
+		draw2D();
 	}
 
     glPopMatrix();
+
+	if (windowResized)
+	{
+		setViewport(windowWidth, windowHeight);
+		windowResized = false;
+	}
+
+	/*
 
     // read color framebuffer
     //glReadBuffer(GL_BACK);
@@ -428,11 +475,7 @@ void ModelGL::draw()
     //}
     //glDrawPixels(windowWidth, windowHeight, GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*)frameBuffer);
 
-    if(windowResized)
-    {
-        setViewport(windowWidth, windowHeight);
-        windowResized = false;
-    }
+
 
     if(changeDrawMode)
     {
@@ -455,7 +498,7 @@ void ModelGL::draw()
             glDisable(GL_CULL_FACE);
         }
     }
-
+	*/
     // check if background colour was changed
     if(bgFlag)
     {

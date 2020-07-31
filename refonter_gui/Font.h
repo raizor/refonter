@@ -51,44 +51,28 @@ public:
 
 		for (uint32_t i = 0; i < font->num_chars; i++)
 		{
-
-			if (settings->font_is_3d)
+			for (unsigned int j = 0; j < tesselated_chars[j].num_triangle_vertices; j++)
 			{
+				tesselated_chars[i].indices[j] = j;
 			}
 
 			// Generate array buffers, one per character
 			glBindBuffer(GL_ARRAY_BUFFER, bufferids[i]);
 			glBufferData(GL_ARRAY_BUFFER, tesselated_chars[i].num_triangle_vertices * sizeof(refonter_vertex), tesselated_chars[i].triangle_vertices, GL_STATIC_DRAW);
-			/*
-			if (make3d)
-			{
-				for (int i = 0; i < tesselated_chars[i].num_triangle_vertices; i++)
-				{
-					tesselated_chars[i].triangle_vertices[i].pos.z += 5;
-					tesselated_chars[i].triangle_vertices[i].normal.z = -tesselated_chars[i].triangle_vertices[i].normal.z;
-				}
-				glBufferData(GL_ARRAY_BUFFER, tesselated_chars[i].num_triangle_vertices * sizeof(refonter_vertex), tesselated_chars[i].triangle_vertices, GL_STATIC_DRAW);
-			}
-			*/
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 		}
-
 	}
 
 	void DrawLetter(uint32_t i)
-	{
+	{		
 		glBindBuffer(GL_ARRAY_BUFFER, bufferids[i]);
 
-		glEnableVertexAttribArray(0);
-		glEnableVertexAttribArray(1);
-
-		glVertexAttribPointer(0, 3, GL_DOUBLE, GL_FALSE, sizeof(refonter_vertex), (GLvoid*)0);
-		glVertexAttribPointer(1, 3, GL_DOUBLE, GL_FALSE, sizeof(refonter_vertex), (GLvoid*)(3 * sizeof(double)));
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glEnableClientState(GL_NORMAL_ARRAY);
+		glVertexPointer(3, GL_DOUBLE, sizeof(refonter_vertex), (GLvoid*)0);
+		glNormalPointer(GL_DOUBLE, sizeof(refonter_vertex), (GLvoid*)(3 * sizeof(double)));
 
 		glDrawArrays(GL_TRIANGLES, 0, tesselated_chars[i].num_triangle_vertices);
-
-		glDisableVertexAttribArray(0);
-		glDisableVertexAttribArray(1);
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}

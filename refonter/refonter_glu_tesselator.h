@@ -12,7 +12,6 @@ typedef struct
 {
 	GLboolean font_is_3d;
 	float depth;
-	int rendering_pass_num;
 } refonter_tesselation_settings;
 
 typedef struct 
@@ -21,6 +20,7 @@ typedef struct
 	refonter_vertex contour_vertices[kMaxTesselatorVertices]; // outline vertices input to tesselator
 	refonter_vertex triangle_vertices[kMaxTesselatorVertices]; // triangle vertices, output from tesselator
 	refonter_vertex edge_vertices[kMaxTesselatorVertices];
+	unsigned int indices[kMaxTesselatorVertices];
 
 	unsigned int num_contour_vertices;
 	unsigned int num_triangle_vertices;

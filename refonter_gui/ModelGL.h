@@ -56,13 +56,16 @@ public:
     void setPointSize(int value);
 
 	void generateFont();
+	void drawCube();
+	void drawStringPreview(Font* font, char* str);
 	void drawFontPreview(Font* font);
 	bool shouldRegenerateFont;
 	WindowsFont* winFont;
 	int fontResolution;
 	int fontPointSize;
-	unsigned int renderMode;
 	refonter_tesselation_settings* tesselation_settings;
+
+	GLuint cubeBufferId;
 
 protected:
 

@@ -71,6 +71,8 @@ void ViewFormGL::initControls(HWND handle)
 
 	trackbarDepth.setRange(-10, 10);
 
+	check3d.check();
+
 	FontList = new WindowsFontList();
 
 	for (auto &font : FontList->fonts) // access by reference to avoid copying

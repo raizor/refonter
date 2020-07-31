@@ -100,6 +100,8 @@ void ControllerGL::runThread()
     // initialize OpenGL states
 	if (tesselation_settings)
 	tesselation_settings = new refonter_tesselation_settings();
+	tesselation_settings->font_is_3d = GL_TRUE;
+	tesselation_settings->depth = 5.0f;
     model->init(tesselation_settings);
     Win::log(L"Initialized OpenGL states.");
 	/*
