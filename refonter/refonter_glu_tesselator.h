@@ -38,11 +38,6 @@ typedef struct
 	// penalty and we should consider performing a seperate tesselation run for the edges, so our front and back faces are
 	// as optimized as GLU will allow...
 
-	// Current primitive (triangle, strip, fan) info
-	refonter_vertex cur_prim_history[2]; // used to convert strips and fans to triangles
-	uint32_t cur_prim_type;
-	uint32_t cur_prim_count; // number of primitives output for current primitive type
-
 	// Other data
 	double flatness_tolerance; // Criteria for ending bezier subdivision
 

@@ -51,11 +51,6 @@ public:
 
 		for (uint32_t i = 0; i < font->num_chars; i++)
 		{
-			for (unsigned int j = 0; j < tesselated_chars[j].num_triangle_vertices; j++)
-			{
-				tesselated_chars[i].indices[j] = j;
-			}
-
 			// Generate array buffers, one per character
 			glBindBuffer(GL_ARRAY_BUFFER, bufferids[i]);
 			glBufferData(GL_ARRAY_BUFFER, tesselated_chars[i].num_triangle_vertices * sizeof(refonter_vertex), tesselated_chars[i].triangle_vertices, GL_STATIC_DRAW);

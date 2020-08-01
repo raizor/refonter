@@ -1,12 +1,12 @@
-===== Log started at 2020-07-31, 11:28:33. =====
+===== Log started at 2020-08-01, 21:49:33. =====
 
-11:28:33  Main window is created.
-11:28:33  Created a rendering thread for OpenGL.
-11:28:33  OpenGL window is resized: 300x300.
-11:28:33  OpenGL window is created.
-11:28:33  Initialized OpenGL states.
-11:28:33  Initialized OpenGL viewport and projection matrix.
-11:28:33  Entering OpenGL rendering thread...
-11:28:33  OpenGL form dialog is created.
-11:28:33  Status bar window is created.
-11:28:33  OpenGL window is resized: 783x783.
+21:49:33  Main window is created.
+21:49:33  Created a rendering thread for OpenGL.
+21:49:33  OpenGL window is resized: 300x300.
+21:49:33  OpenGL window is created.
+21:49:33  Initialized OpenGL states.
+21:49:33  Initialized OpenGL viewport and projection matrix.
+21:49:33  Entering OpenGL rendering thread...
+21:49:33  OpenGL form dialog is created.
+21:49:33  Status bar window is created.
+21:49:33  OpenGL window is resized: 783x783.

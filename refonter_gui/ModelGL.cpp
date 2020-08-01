@@ -105,19 +105,87 @@ void ModelGL::init(refonter_tesselation_settings* tesselation_settings)
 ///////////////////////////////////////////////////////////////////////////////
 void ModelGL::initLights()
 {
+	const unsigned int NUM_LIGHTS = 3;
+	GLfloat lightKa[NUM_LIGHTS][4];
+	GLfloat lightKd[NUM_LIGHTS][4];
+	GLfloat lightKs[NUM_LIGHTS][4];
+	float lightPos[NUM_LIGHTS][4];
+	   
     // set up light colors (ambient, diffuse, specular)
-    GLfloat lightKa[] = {.0f, .0f, .0f, 1.0f};      // ambient light
-    GLfloat lightKd[] = {.9f, .9f, .9f, 1.0f};      // diffuse light
-    GLfloat lightKs[] = {1, 1, 1, 1};               // specular light
-    glLightfv(GL_LIGHT0, GL_AMBIENT, lightKa);
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, lightKd);
-    glLightfv(GL_LIGHT0, GL_SPECULAR, lightKs);
 
-    // position the light
-    float lightPos[4] = {0, 0, 5, 0};
-    glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
+	// light 1
+	lightKa[0][0] = 0;
+	lightKa[0][1] = 0;
+	lightKa[0][2] = 0;
+	lightKa[0][3] = 1.0f;
 
-    glEnable(GL_LIGHT0);                            // MUST enable each light source after configuration
+	lightKd[0][0] = 0.9f;
+	lightKd[0][1] = 0.9f;
+	lightKd[0][2] = 0.9f;
+	lightKd[0][3] = 1.0f;
+
+	lightKs[0][0] = 1;
+	lightKs[0][1] = 1;
+	lightKs[0][2] = 1;
+	lightKs[0][3] = 1;
+
+	lightPos[0][0] = 0;
+	lightPos[0][1] = 0;
+	lightPos[0][2] = 5;
+	lightPos[0][3] = 0;
+
+	// light 2
+	lightKa[1][0] = 0;
+	lightKa[1][1] = 0;
+	lightKa[1][2] = 0;
+	lightKa[1][3] = 1.0f;
+
+	lightKd[1][0] = 0.2f;
+	lightKd[1][1] = 0.3f;
+	lightKd[1][2] = 0.9f;
+	lightKd[1][3] = 1.0f;
+
+	lightKs[1][0] = 1;
+	lightKs[1][1] = 1;
+	lightKs[1][2] = 1;
+	lightKs[1][3] = 1;
+
+	lightPos[1][0] = 0;
+	lightPos[1][1] = 5;
+	lightPos[1][2] = 2.5f;
+	lightPos[1][3] = 0;
+
+	// light 3
+	lightKa[2][0] = 0;
+	lightKa[2][1] = 0;
+	lightKa[2][2] = 0;
+	lightKa[2][3] = 1.0f;
+
+	lightKd[2][0] = 0.9f;
+	lightKd[2][1] = 0.3f;
+	lightKd[2][2] = 0.3f;
+	lightKd[2][3] = 1.0f;
+
+	lightKs[2][0] = 0.2f;
+	lightKs[2][1] = 0.2f;
+	lightKs[2][2] = 0.2f;
+	lightKs[2][3] = 0.2f;
+
+	lightPos[2][0] = 0;
+	lightPos[2][1] = -2.5f;
+	lightPos[2][2] = -0.5f;
+	lightPos[2][3] = 0;
+
+	for (unsigned int i = 0; i < NUM_LIGHTS; i++)
+	{
+		glLightfv(GL_LIGHT0 + i, GL_AMBIENT, lightKa[i]);
+		glLightfv(GL_LIGHT0 + i, GL_DIFFUSE, lightKd[i]);
+		glLightfv(GL_LIGHT0 + i, GL_SPECULAR, lightKs[i]);
+		// position the light    
+		glLightfv(GL_LIGHT0 + i, GL_POSITION, lightPos[i]);
+		glEnable(GL_LIGHT0+i);                            // MUST enable each light source after configuration
+	}
+
 
 	/*
 	glGenBuffers(1, &cubeBufferId);
@@ -407,7 +475,7 @@ void ModelGL::draw3D()
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
 	//drawFontPreview(font);
-	drawStringPreview(font, "ABCD");
+	drawStringPreview(font, "uqe");
 	//drawCube();
 }
 
