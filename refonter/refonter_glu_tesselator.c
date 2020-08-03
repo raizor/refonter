@@ -214,9 +214,8 @@ void refonter_glu_tesselate_internal(refonter_font* cur_font, refonter_tesselati
 	gluTessCallback(glu_tess, GLU_TESS_VERTEX, (GLvoid(__stdcall *) ()) &callback_add_vertex);
 	gluTessCallback(glu_tess, GLU_TESS_COMBINE, (GLvoid(__stdcall *) ()) &callback_combine);
 
-	// GLU_TESS_EDGE_FLAG will cause the tesselator to only output triangle primitives
-	// we do this only for 3d objects in the second pass to generate the sides of the shape
-	//gluTessCallback(glu_tess, GLU_TESS_BEGIN, (GLvoid(__stdcall *) ()) &callback_begin_primitive);
+	// GLU_TESS_EDGE_FLAG/GLU_TESS_EDGE_FLAG_DATA callbacks will cause the tesselator to only output triangle primitives.
+	// This saves us some working handling strips and fans, so we do this for both 2D and 3D fonts using dummy callbacks...
 	gluTessCallback(glu_tess, GLU_TESS_END, (GLvoid(__stdcall *) ()) &callback_end_primitive); // currently not used
 	gluTessCallback(glu_tess, GLU_TESS_ERROR, (GLvoid(__stdcall *) ()) &callback_error);
 	gluTessCallback(glu_tess, GLU_TESS_EDGE_FLAG, (GLvoid(__stdcall *) ()) &callback_edge);
