@@ -475,7 +475,7 @@ void ModelGL::draw3D()
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
 	//drawFontPreview(font);
-	drawStringPreview(font, "uqe");
+	drawStringPreview(font, "fnuque");
 	//drawCube();
 }
 

@@ -7,6 +7,7 @@ extern "C" {
 // We can't know beforehand how many vertices we'll need per character, so we hope this is enough. 
 // We could use a growable array, but that would incur some code size and complexity
 #define kMaxTesselatorVertices 8192*2
+#define kMaxTesselatorContours 10
 
 typedef struct
 {
@@ -19,18 +20,17 @@ typedef struct
 	// Vertex storage
 	refonter_vertex contour_vertices[kMaxTesselatorVertices]; // outline vertices input to tesselator
 	refonter_vertex triangle_vertices[kMaxTesselatorVertices]; // triangle vertices, output from tesselator
-	refonter_vertex edge_vertices[kMaxTesselatorVertices];
-	unsigned int indices[kMaxTesselatorVertices];
+	//refonter_vertex edge_vertices[kMaxTesselatorVertices];
 
 	unsigned int num_contour_vertices;
 	unsigned int num_triangle_vertices;
-	unsigned int num_edge_vertices;
+	//unsigned int num_edge_vertices;
+
+	unsigned int num_contours;
+	unsigned int contour_indices[kMaxTesselatorContours];
 
 	refonter_tesselation_settings settings;
-
-	// are the next two incoming callback vertices an edge?
-	GLboolean glu_processing_edge_flag;
-
+	
 	// GLU tesselator instance
 	GLUtesselator* glu_tess_obj;
 

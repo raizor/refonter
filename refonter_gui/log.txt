@@ -1,12 +1,158 @@
-===== Log started at 2020-08-01, 21:49:33. =====
+===== Log started at 2020-08-03, 20:35:40. =====
 
-21:49:33  Main window is created.
-21:49:33  Created a rendering thread for OpenGL.
-21:49:33  OpenGL window is resized: 300x300.
-21:49:33  OpenGL window is created.
-21:49:33  Initialized OpenGL states.
-21:49:33  Initialized OpenGL viewport and projection matrix.
-21:49:33  Entering OpenGL rendering thread...
-21:49:33  OpenGL form dialog is created.
-21:49:33  Status bar window is created.
-21:49:33  OpenGL window is resized: 783x783.
+20:35:40  Main window is created.
+20:35:40  Created a rendering thread for OpenGL.
+20:35:40  OpenGL window is resized: 300x300.
+20:35:40  OpenGL window is created.
+20:35:40  Initialized OpenGL states.
+20:35:40  Initialized OpenGL viewport and projection matrix.
+20:35:40  Entering OpenGL rendering thread...
+20:35:41  OpenGL form dialog is created.
+20:35:41  Status bar window is created.
+20:35:41  OpenGL window is resized: 783x783.
+20:35:43  OpenGL window is resized: 785x783.
+20:35:43  OpenGL window is resized: 793x783.
+20:35:43  OpenGL window is resized: 800x783.
+20:35:43  OpenGL window is resized: 809x783.
+20:35:43  OpenGL window is resized: 833x783.
+20:35:43  OpenGL window is resized: 850x783.
+20:35:43  OpenGL window is resized: 869x783.
+20:35:43  OpenGL window is resized: 885x783.
+20:35:43  OpenGL window is resized: 902x783.
+20:35:43  OpenGL window is resized: 918x783.
+20:35:43  OpenGL window is resized: 932x783.
+20:35:43  OpenGL window is resized: 944x783.
+20:35:43  OpenGL window is resized: 956x783.
+20:35:43  OpenGL window is resized: 967x783.
+20:35:43  OpenGL window is resized: 977x783.
+20:35:43  OpenGL window is resized: 987x783.
+20:35:43  OpenGL window is resized: 996x783.
+20:35:43  OpenGL window is resized: 1005x783.
+20:35:43  OpenGL window is resized: 1016x783.
+20:35:43  OpenGL window is resized: 1026x783.
+20:35:43  OpenGL window is resized: 1050x783.
+20:35:43  OpenGL window is resized: 1062x783.
+20:35:43  OpenGL window is resized: 1076x783.
+20:35:43  OpenGL window is resized: 1088x783.
+20:35:43  OpenGL window is resized: 1100x783.
+20:35:43  OpenGL window is resized: 1109x783.
+20:35:43  OpenGL window is resized: 1118x783.
+20:35:43  OpenGL window is resized: 1127x783.
+20:35:43  OpenGL window is resized: 1135x783.
+20:35:43  OpenGL window is resized: 1142x783.
+20:35:43  OpenGL window is resized: 1150x783.
+20:35:43  OpenGL window is resized: 1158x783.
+20:35:43  OpenGL window is resized: 1165x783.
+20:35:43  OpenGL window is resized: 1173x783.
+20:35:43  OpenGL window is resized: 1181x783.
+20:35:43  OpenGL window is resized: 1190x783.
+20:35:43  OpenGL window is resized: 1202x783.
+20:35:43  OpenGL window is resized: 1207x783.
+20:35:44  OpenGL window is resized: 1210x783.
+20:35:44  OpenGL window is resized: 1213x783.
+20:35:44  OpenGL window is resized: 1216x783.
+20:35:44  OpenGL window is resized: 1219x783.
+20:35:44  OpenGL window is resized: 1221x783.
+20:35:44  OpenGL window is resized: 1224x783.
+20:35:44  OpenGL window is resized: 1226x783.
+20:35:44  OpenGL window is resized: 1228x783.
+20:35:44  OpenGL window is resized: 1231x783.
+20:35:44  OpenGL window is resized: 1236x783.
+20:35:44  OpenGL window is resized: 1240x783.
+20:35:44  OpenGL window is resized: 1246x783.
+20:35:44  OpenGL window is resized: 1251x783.
+20:35:44  OpenGL window is resized: 1253x783.
+20:35:44  OpenGL window is resized: 1255x783.
+20:35:49  OpenGL window is resized: 1255x782.
+20:35:49  OpenGL window is resized: 1255x780.
+20:35:49  OpenGL window is resized: 1255x777.
+20:35:49  OpenGL window is resized: 1255x773.
+20:35:49  OpenGL window is resized: 1255x768.
+20:35:49  OpenGL window is resized: 1255x764.
+20:35:49  OpenGL window is resized: 1255x760.
+20:35:49  OpenGL window is resized: 1255x756.
+20:35:49  OpenGL window is resized: 1255x751.
+20:35:49  OpenGL window is resized: 1255x747.
+20:35:49  OpenGL window is resized: 1255x742.
+20:35:49  OpenGL window is resized: 1255x737.
+20:35:49  OpenGL window is resized: 1255x733.
+20:35:50  OpenGL window is resized: 1255x729.
+20:35:50  OpenGL window is resized: 1255x725.
+20:35:50  OpenGL window is resized: 1255x720.
+20:35:50  OpenGL window is resized: 1255x717.
+20:35:50  OpenGL window is resized: 1255x713.
+20:35:50  OpenGL window is resized: 1255x711.
+20:35:50  OpenGL window is resized: 1255x709.
+20:35:50  OpenGL window is resized: 1255x707.
+20:35:50  OpenGL window is resized: 1255x703.
+20:35:50  OpenGL window is resized: 1255x702.
+20:35:50  OpenGL window is resized: 1255x700.
+20:35:50  OpenGL window is resized: 1255x699.
+20:35:50  OpenGL window is resized: 1255x697.
+20:35:50  OpenGL window is resized: 1255x696.
+20:35:50  OpenGL window is resized: 1255x694.
+20:35:50  OpenGL window is resized: 1255x692.
+20:35:50  OpenGL window is resized: 1255x690.
+20:35:50  OpenGL window is resized: 1255x689.
+20:35:50  OpenGL window is resized: 1255x687.
+20:35:50  OpenGL window is resized: 1255x684.
+20:35:50  OpenGL window is resized: 1255x681.
+20:35:50  OpenGL window is resized: 1255x679.
+20:35:50  OpenGL window is resized: 1255x675.
+20:35:50  OpenGL window is resized: 1255x668.
+20:35:50  OpenGL window is resized: 1255x665.
+20:35:50  OpenGL window is resized: 1255x663.
+20:35:50  OpenGL window is resized: 1255x661.
+20:35:50  OpenGL window is resized: 1255x659.
+20:35:50  OpenGL window is resized: 1255x657.
+20:35:50  OpenGL window is resized: 1255x654.
+20:35:50  OpenGL window is resized: 1255x653.
+20:35:50  OpenGL window is resized: 1255x651.
+20:35:50  OpenGL window is resized: 1255x649.
+20:35:50  OpenGL window is resized: 1255x646.
+20:35:50  OpenGL window is resized: 1255x644.
+20:35:50  OpenGL window is resized: 1255x641.
+20:35:50  OpenGL window is resized: 1255x638.
+20:35:50  OpenGL window is resized: 1255x630.
+20:35:50  OpenGL window is resized: 1255x627.
+20:35:50  OpenGL window is resized: 1255x624.
+20:35:50  OpenGL window is resized: 1255x620.
+20:35:50  OpenGL window is resized: 1255x614.
+20:35:50  OpenGL window is resized: 1255x609.
+20:35:50  OpenGL window is resized: 1255x603.
+20:35:50  OpenGL window is resized: 1255x596.
+20:35:50  OpenGL window is resized: 1255x591.
+20:35:50  OpenGL window is resized: 1255x585.
+20:35:50  OpenGL window is resized: 1255x579.
+20:35:50  OpenGL window is resized: 1255x574.
+20:35:50  OpenGL window is resized: 1255x568.
+20:35:50  OpenGL window is resized: 1255x563.
+20:35:50  OpenGL window is resized: 1255x557.
+20:35:50  OpenGL window is resized: 1255x552.
+20:35:50  OpenGL window is resized: 1255x544.
+20:35:50  OpenGL window is resized: 1255x539.
+20:35:50  OpenGL window is resized: 1255x535.
+20:35:50  OpenGL window is resized: 1255x531.
+20:35:50  OpenGL window is resized: 1255x527.
+20:35:50  OpenGL window is resized: 1255x523.
+20:35:50  OpenGL window is resized: 1255x520.
+20:35:50  OpenGL window is resized: 1255x519.
+20:35:50  OpenGL window is resized: 1255x517.
+20:35:50  OpenGL window is resized: 1255x516.
+20:35:50  OpenGL window is resized: 1255x515.
+20:35:50  OpenGL window is resized: 1255x514.
+20:35:50  OpenGL window is resized: 1255x513.
+20:35:50  OpenGL window is resized: 1255x512.
+20:35:50  OpenGL window is resized: 1255x511.
+20:35:50  OpenGL window is resized: 1255x510.
+20:39:17  
+20:39:17  Terminating application...
+20:39:17  Closed OpenGL context.
+20:39:17  Exit OpenGL rendering thread.
+20:39:17  OpenGL window is destroyed.
+20:39:17  Form dialog is destroyed.
+20:39:17  Main window is destroyed.
+20:39:17  Application terminated.
+
+
+===== END OF LOG =====
