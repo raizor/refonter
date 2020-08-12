@@ -7,37 +7,37 @@ extern "C" {
 // We can't know beforehand how many vertices we'll need per character, so we hope this is enough. 
 // We could use a growable array, but that would incur some code size and complexity
 #define kMaxTesselatorVertices 8192*2
+// This seems like an initially sensible number
 #define kMaxTesselatorContours 10
 
 typedef struct
 {
 	GLboolean font_is_3d;
-	float depth;
+	double depth;
+	//double depth_layer_2;
+	//double depth_layer_3;
+
+	//double angle_layer_2;
+	//double angle_layer_3;
 } refonter_tesselation_settings;
 
 typedef struct 
 {
 	// Vertex storage
-	refonter_vertex contour_vertices[kMaxTesselatorVertices]; // outline vertices input to tesselator
+	refonter_vertex contour_vertices[kMaxTesselatorContours][kMaxTesselatorVertices]; // outline vertices input to tesselator
 	refonter_vertex triangle_vertices[kMaxTesselatorVertices]; // triangle vertices, output from tesselator
-	//refonter_vertex edge_vertices[kMaxTesselatorVertices];
 
-	unsigned int num_contour_vertices;
-	unsigned int num_triangle_vertices;
-	//unsigned int num_edge_vertices;
+	unsigned int num_contour_vertices[kMaxTesselatorContours]; // vertex count for each contour
+	unsigned int num_triangle_vertices; // number of front/back face triangles
+	unsigned int contour_vertices_index_start; 
+	unsigned int num_contours; // contour count
 
-	unsigned int num_contours;
-	unsigned int contour_indices[kMaxTesselatorContours];
-
+	// general char-style settings for tesselation
 	refonter_tesselation_settings settings;
 	
 	// GLU tesselator instance
 	GLUtesselator* glu_tess_obj;
-
-	// note: enabling GLU edge callbacks forces all output prims to be standard triangles. this will come with a draw-time
-	// penalty and we should consider performing a seperate tesselation run for the edges, so our front and back faces are
-	// as optimized as GLU will allow...
-
+	
 	// Other data
 	double flatness_tolerance; // Criteria for ending bezier subdivision
 

@@ -6,7 +6,7 @@
 extern "C" {
 
 #define DEBUG_FUNC_COUNT 2
-#define FUNC_COUNT 42
+#define FUNC_COUNT 43
 
 #ifdef _DEBUG
 
@@ -139,6 +139,7 @@ static const char *strs[] =
 	"glClientActiveTexture",
 	"glUniform1fv",
 	"glDeleteBuffers",
+	"glBufferSubData",
 	
 #if _DEBUG
 
@@ -187,27 +188,25 @@ static const char *strs[] =
 #define glDrawBuffers                  ((PFNGLDRAWBUFFERSPROC)myglfunc[30])					// 30
 #define glFramebufferTexture2D         ((PFNGLFRAMEBUFFERTEXTURE2DPROC)myglfunc[31])		// 31		
 
-#define glGetProgramiv              ((PFNGLGETUNIFORMIVPROC)myglfunc[32])					// 32
-#define glGetProgramInfoLog         ((PFNGLGETPROGRAMINFOLOGPROC)myglfunc[33])				// 33
-#define glCheckFramebufferStatusEXT ((PFNGLCHECKFRAMEBUFFERSTATUSEXTPROC)myglfunc[34])		// 34
-#define glDrawElementsInstanced ((PFNGLDRAWELEMENTSINSTANCEDEXTPROC)myglfunc[35])		// 34
-#define glDrawArraysInstanced ((PFNGLDRAWARRAYSINSTANCEDEXTPROC)myglfunc[36])		// 34
-#define glGetAttribLocation ((PFNGLGETATTRIBLOCATIONPROC)myglfunc[37])		// 34
-#define glVertexAttribDivisor ((PFNGLVERTEXATTRIBDIVISORARBPROC)myglfunc[38])		// 34
+#define glGetProgramiv                 ((PFNGLGETUNIFORMIVPROC)myglfunc[32])					// 32
+#define glGetProgramInfoLog            ((PFNGLGETPROGRAMINFOLOGPROC)myglfunc[33])				// 33
+#define glCheckFramebufferStatusEXT    ((PFNGLCHECKFRAMEBUFFERSTATUSEXTPROC)myglfunc[34])		// 34
+#define glDrawElementsInstanced        ((PFNGLDRAWELEMENTSINSTANCEDEXTPROC)myglfunc[35])		// 35
+#define glDrawArraysInstanced          ((PFNGLDRAWARRAYSINSTANCEDEXTPROC)myglfunc[36])		// 36
+#define glGetAttribLocation            ((PFNGLGETATTRIBLOCATIONPROC)myglfunc[37])		// 37
+#define glVertexAttribDivisor          ((PFNGLVERTEXATTRIBDIVISORARBPROC)myglfunc[38])		// 38
 
-#define glUniform3f ((PFNGLUNIFORM3FPROC)myglfunc[39])		// 34
-#define glClientActiveTexture ((PFNGLCLIENTACTIVETEXTUREPROC)myglfunc[40])		// 34
+#define glUniform3f                    ((PFNGLUNIFORM3FPROC)myglfunc[39])		// 39
+#define glClientActiveTexture          ((PFNGLCLIENTACTIVETEXTUREPROC)myglfunc[40])		// 40
 
-#define glUniform1fv ((PFNGLUNIFORM1FVPROC)myglfunc[41])		// 34
+#define glUniform1fv                   ((PFNGLUNIFORM1FVPROC)myglfunc[41])		// 41
 
-#define glDeleteBuffers ((PFNGLDELETEBUFFERSPROC)myglfunc[42])		// 34
-
-
-
+#define glDeleteBuffers                ((PFNGLDELETEBUFFERSPROC)myglfunc[42])		// 42
+#define glBufferSubData                ((PFNGLBUFFERSUBDATAPROC)myglfunc[43])		// 43
 
 #if _DEBUG	
-#define glDeleteShader              ((PFNGLDELETESHADERPROC)myglfunc[43])					// 35
-#define glDetachShader				((PFNGLDETACHSHADERPROC)myglfunc[44])					// 36
+	#define glDeleteShader                 ((PFNGLDELETESHADERPROC)myglfunc[44])					// 35
+	#define glDetachShader		  		   ((PFNGLDETACHSHADERPROC)myglfunc[45])					// 36
 #endif
 
 void InitGlExtensions();

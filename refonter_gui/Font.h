@@ -22,7 +22,7 @@ public:
 	static refonter_tesselation_object* tesselated_chars;
 	static refonter_tesselation_settings* settings;
 	static GLuint* bufferids;
-		
+
 	Font(unsigned char* font_blob, refonter_tesselation_settings* settings, double subdivision_tolerance)
 	{
 		if (Font::bufferids)
@@ -46,7 +46,9 @@ public:
 
 		// Generate buffer ids
 		bufferids = new GLuint[font->num_chars];
+
 		GLenum xx = glGetError();
+
 		glGenBuffers(font->num_chars, bufferids);
 
 		for (uint32_t i = 0; i < font->num_chars; i++)
@@ -60,16 +62,15 @@ public:
 
 	void DrawLetter(uint32_t i)
 	{		
-		glBindBuffer(GL_ARRAY_BUFFER, bufferids[i]);
+		refonter_tesselation_object* ch = &tesselated_chars[i];
 
+		
+		glBindBuffer(GL_ARRAY_BUFFER, bufferids[i]);
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glEnableClientState(GL_NORMAL_ARRAY);
 		glVertexPointer(3, GL_DOUBLE, sizeof(refonter_vertex), (GLvoid*)0);
 		glNormalPointer(GL_DOUBLE, sizeof(refonter_vertex), (GLvoid*)(3 * sizeof(double)));
-
-		glDrawArrays(GL_TRIANGLES, 0, tesselated_chars[i].num_triangle_vertices);
-
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glDrawArrays(GL_TRIANGLES, 0, ch->num_triangle_vertices);
 	}
 
 	void Write(const char* str)

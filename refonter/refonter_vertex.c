@@ -10,12 +10,12 @@ refonter_vec3 refonter_zero_vertex()
 	return res;
 }
 
-refonter_vec3 refonter_vertex_minus(const refonter_vec3 p1, const refonter_vec3 p2)
+refonter_vec3 refonter_vertex_minus(const refonter_vec3 target, const refonter_vec3 amount)
 {
 	refonter_vec3 res;
-	res.x = p1.x - p2.x;
-	res.y = p1.y - p2.y;
-	res.z = p1.z - p2.z;
+	res.x = target.x - amount.x;
+	res.y = target.y - amount.y;
+	res.z = target.z - amount.z;
 	return res;
 }
 

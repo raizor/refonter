@@ -63,8 +63,8 @@ void ModelGL::init(refonter_tesselation_settings* tesselation_settings)
 
     // enable /disable features
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-    //glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-    //glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
+    glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+    glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_LIGHTING);
     glEnable(GL_TEXTURE_2D);
@@ -475,7 +475,7 @@ void ModelGL::draw3D()
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
 	//drawFontPreview(font);
-	drawStringPreview(font, "fnuque");
+	drawStringPreview(font, "love");
 	//drawCube();
 }
 
@@ -492,7 +492,7 @@ void ModelGL::draw()
     // save the initial ModelView matrix before modifying ModelView matrix
     glPushMatrix();
 
-	int drawMode2 = 0;
+	int drawMode2 = 1;
 
 	if (drawMode2 == 0)           // fill mode
 	{
