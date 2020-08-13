@@ -475,7 +475,7 @@ void ModelGL::draw3D()
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
 	//drawFontPreview(font);
-	drawStringPreview(font, "love");
+	drawStringPreview(font, "fnuque");
 	//drawCube();
 }
 
@@ -492,7 +492,7 @@ void ModelGL::draw()
     // save the initial ModelView matrix before modifying ModelView matrix
     glPushMatrix();
 
-	int drawMode2 = 1;
+	int drawMode2 = 0;
 
 	if (drawMode2 == 0)           // fill mode
 	{

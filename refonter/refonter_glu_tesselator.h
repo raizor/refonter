@@ -45,7 +45,7 @@ typedef struct
 
 void refonter_glu_tesselate(refonter_font* p_font, refonter_tesselation_object* tess_objs, refonter_tesselation_settings settings, double flatness_tolerance);
 void refonter_create_back_and_sides(refonter_font* cur_font, refonter_tesselation_object* tess_objs, refonter_tesselation_settings settings);
-
+void add_side_normals(refonter_tesselation_object* cur_char);
 #ifdef __cplusplus
 }
 #endif
