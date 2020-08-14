@@ -10,27 +10,40 @@ extern "C" {
 // This seems like an initially sensible number
 #define kMaxTesselatorContours 10
 
+typedef enum kRenderStyle
+{
+	kRenderStyle_Smooth = 0,
+	kRenderStyle_Hard = 1
+}kRenderStyle;
+	
 typedef struct
 {
-	GLboolean font_is_3d;
+	GLboolean font_is_3d; // todo: get rid of this and just check for depth > 0.0
 	double depth;
-	//double depth_layer_2;
-	//double depth_layer_3;
+	double depth_front;
+	double depth_back;
+	double size_front;
+	double size_back;
+	kRenderStyle render_style;
 
-	//double angle_layer_2;
-	//double angle_layer_3;
 } refonter_tesselation_settings;
 
 typedef struct 
 {
+	// front triangles
+	// rear triangles
+	// countour edge triangles
+
 	// Vertex storage
 	refonter_vertex contour_vertices[kMaxTesselatorContours][kMaxTesselatorVertices]; // outline vertices input to tesselator
 	refonter_vertex triangle_vertices[kMaxTesselatorVertices]; // triangle vertices, output from tesselator
 
 	unsigned int num_contour_vertices[kMaxTesselatorContours]; // vertex count for each contour
-	unsigned int num_triangle_vertices; // number of front/back face triangles
-	unsigned int contour_vertices_index_start; 
+	unsigned int num_triangle_vertices; // number of front/back face triangles	
 	unsigned int num_contours; // contour count
+
+	// offsets into triangles buffer
+	unsigned int contour_vertices_index_start;
 
 	// general char-style settings for tesselation
 	refonter_tesselation_settings settings;
