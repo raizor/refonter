@@ -345,10 +345,9 @@ void add_side_face(refonter_tesselation_object* cur_char, refonter_vertex* p1, r
 	cur_char->triangle_vertices[cur_char->num_triangle_vertices++] = v3;
 }
 
-void refonter_create_back_and_sides(refonter_font* cur_font, refonter_tesselation_object* tess_objects, refonter_tesselation_settings settings) {
-
+void refonter_create_back_and_sides(refonter_font* cur_font, refonter_tesselation_object* tess_objects, refonter_tesselation_settings settings)
+{
 	// Iterate over all characters in font
-
 	unsigned int character;
 	refonter_tesselation_object* cur_char;
 	for (character = 0; character < cur_font->num_chars; character++)
@@ -400,9 +399,22 @@ void refonter_create_back_and_sides(refonter_font* cur_font, refonter_tesselatio
 		unsigned int num_contour_triangle_vertices = cur_char->num_triangle_vertices - cur_char->contour_vertices_index_start;
 		for (unsigned int i = 0; i < num_contour_triangle_vertices; i += 6)
 		{
-			unsigned int indexPrev = i - 6;
+			unsigned int indexPrev;
 			unsigned int indexThis = i;
 			unsigned int indexNext = (i + 6) % num_contour_triangle_vertices;
+			if (indexThis >= 6)
+			{
+				indexPrev = indexThis - 6;
+			}
+			else {
+				indexPrev = num_contour_triangle_vertices - 6;
+			}
+
+			// winding & indexing for contour edge vertices
+			// 0__1 0__1
+			// 3__2 3__2
+
+			// 2 tris per quad face: 3,0,1 and 1,2,3
 
 			refonter_vertex* v_prev = &cur_char->triangle_vertices[cur_char->contour_vertices_index_start + indexPrev];
 			refonter_vertex* v_this = &cur_char->triangle_vertices[cur_char->contour_vertices_index_start + indexThis];
@@ -410,27 +422,22 @@ void refonter_create_back_and_sides(refonter_font* cur_font, refonter_tesselatio
 
 			const refonter_vec3 e1_prev = refonter_vertex_minus(v_prev[1].pos, v_prev[0].pos);
 			const refonter_vec3 e2_prev = refonter_vertex_minus(v_prev[1].pos, v_prev[2].pos);
-			const refonter_vec3 n_prev = refonter_vertex_normalize(refonter_vertex_cross(e1_prev, e2_prev));
+			const refonter_vec3 n_prev = refonter_vertex_normalize(refonter_vertex_cross(e2_prev, e1_prev));
 
 			const refonter_vec3 e1_this = refonter_vertex_minus(v_this[1].pos, v_this[0].pos);
 			const refonter_vec3 e2_this = refonter_vertex_minus(v_this[1].pos, v_this[2].pos);
-			const refonter_vec3 n_this = refonter_vertex_normalize(refonter_vertex_cross(e1_this, e2_this));
+			const refonter_vec3 n_this = refonter_vertex_normalize(refonter_vertex_cross(e2_this, e1_this));
 
 			const refonter_vec3 e1_next = refonter_vertex_minus(v_next[1].pos, v_next[0].pos);
 			const refonter_vec3 e2_next = refonter_vertex_minus(v_next[1].pos, v_next[2].pos);
-			const refonter_vec3 n_next = refonter_vertex_normalize(refonter_vertex_cross(e1_next, e2_next));
+			const refonter_vec3 n_next = refonter_vertex_normalize(refonter_vertex_cross(e2_next, e1_next));
 
-			// winding & indexing for contour edge vertices
-			// 0__1 0__1
-			// 3__2 3__2
-
-			// 2 tris per quade face: 3,0,1 and 1,2,3
 			const refonter_vec3 normal_edge_1 = refonter_vertex_plus(n_prev, n_this);
 			const refonter_vec3 normal_edge_2 = refonter_vertex_plus(n_next, n_this);
-			v_this[0].normal = v_this[1].normal = v_this[5].normal = normal_edge_1;
-			v_this[2].normal = v_this[3].normal = v_this[4].normal = normal_edge_2;
+			v_this[0].normal = v_this[1].normal = v_this[5].normal = refonter_vertex_normalize(normal_edge_1);
+			v_this[2].normal = v_this[3].normal = v_this[4].normal = refonter_vertex_normalize(normal_edge_2);
 
-
+			/*			
 			// factor in front/rear faces
 			refonter_vec3 backNormal = refonter_zero_vertex();
 			backNormal.z = 1;
@@ -441,11 +448,10 @@ void refonter_create_back_and_sides(refonter_font* cur_font, refonter_tesselatio
 			v_this[2].normal = refonter_vertex_normalize(refonter_vertex_plus(v_this[2].normal, backNormal));
 			v_this[3].normal = refonter_vertex_normalize(refonter_vertex_plus(v_this[3].normal, backNormal));
 
-			v_this[0].normal = refonter_vertex_normalize(refonter_vertex_plus(v_this[0].normal, backNormal));
-			v_this[4].normal = refonter_vertex_normalize(refonter_vertex_plus(v_this[4].normal, backNormal));
-			v_this[5].normal = refonter_vertex_normalize(refonter_vertex_plus(v_this[5].normal, backNormal));
-
-
+			v_this[0].normal = refonter_vertex_normalize(refonter_vertex_plus(v_this[0].normal, frontNormal));
+			v_this[4].normal = refonter_vertex_normalize(refonter_vertex_plus(v_this[4].normal, frontNormal));
+			v_this[5].normal = refonter_vertex_normalize(refonter_vertex_plus(v_this[5].normal, frontNormal));
+			*/
 		}
 	}
 }
