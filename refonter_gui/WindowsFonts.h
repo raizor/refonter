@@ -10,7 +10,7 @@
 #include "refonter.h"
 #include "refonter.h"
 #include "refonter_glu_tesselator.h"
-#include "gl8k.h"
+#include "gl/gl8k.h"
 
 using namespace std;
 

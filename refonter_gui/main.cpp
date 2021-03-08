@@ -22,7 +22,7 @@
 #include "ViewFormGL.h"
 #include "resource.h"
 #include "Log.h"
-#include "gl8k.h"
+#include "gl/gl8k.h"
 
 
 
@@ -55,9 +55,15 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdArgs, int cmdS
     Win::ControllerMain mainCtrl;
     Win::Window mainWin(hInst, name, 0, &mainCtrl);
 
+	RECT desktop;
+	// Get a handle to the desktop window
+	const HWND hDesktop = GetDesktopWindow();
+	// Get the size of screen to the variable desktop
+	GetWindowRect(hDesktop, &desktop);
+
     // add menu to window class
     mainWin.setMenuName(MAKEINTRESOURCE(IDR_MAIN_MENU));
-    mainWin.setWidth(300);
+    mainWin.setWidth(600);
     mainWin.setHeight(460);
     mainWin.setWindowStyleEx(WS_EX_WINDOWEDGE);
 
@@ -78,7 +84,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdArgs, int cmdS
     glWin.setClassStyle(CS_OWNDC);
     glWin.setWindowStyle(WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN);
     glWin.setWindowStyleEx(!WS_EX_CLIENTEDGE);   // remove edge
-    glWin.setWidth(300);
+    glWin.setWidth(600);
     glWin.setHeight(300);
     if(glWin.create())
         Win::log("OpenGL window is created.");
@@ -88,7 +94,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdArgs, int cmdS
     // create a child dialog box contains controls
     Win::ControllerFormGL formCtrl(&modelGL, &viewFormGL);
     Win::DialogWindow glDialog(hInst, IDD_CONTROLS, mainWin.getHandle(), &formCtrl);
-    glDialog.setWidth(300);
+    glDialog.setWidth(600);
     glDialog.setHeight(160);
     if(glDialog.create())
         Win::log("OpenGL form dialog is created.");

@@ -95,7 +95,8 @@ void ModelGL::init(refonter_tesselation_settings* tesselation_settings)
 
 	glShadeModel(GL_SMOOTH);
 	
-	shouldRegenerateFont = true;	
+	shouldRegenerateFont = true;
+	
 }
 
 
@@ -457,7 +458,7 @@ void ModelGL::draw2D()
 }
 
 void ModelGL::draw3D()
-{
+{	
 	// TODO: deactivate all textures and program
 	glTranslatef(0, 0, cameraDistance);
 	glRotatef(cameraAngleX, 1, 0, 0);   // pitch
@@ -475,7 +476,7 @@ void ModelGL::draw3D()
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
 	//drawFontPreview(font);
-	drawStringPreview(font, "fnuque");
+	drawStringPreview(font, "raizor");
 	//drawCube();
 }
 

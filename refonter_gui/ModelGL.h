@@ -19,7 +19,9 @@
 
 #include "Sphere.h"
 #include "refonter.h"
+#include "gl/Shader.h"
 #include "Font.h"
+
 
 enum
 {

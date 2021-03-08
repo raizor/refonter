@@ -10,7 +10,7 @@ extern "C" {
 
 #ifdef _DEBUG
 
-#include <GL/glu.h>
+#include <gl/GLU.h>
 
 #define OGL( STAT ) { GLenum err = glGetError(); STAT; err = glGetError(); if( err != GL_NO_ERROR ) zmsg("OpenGL error: %s(%i): %s", __FILE__,__LINE__,(char*)gluErrorString( err ) ); }
 #else

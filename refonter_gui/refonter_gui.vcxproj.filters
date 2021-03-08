@@ -13,9 +13,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ModelGL.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="procedure.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -41,7 +38,6 @@
     <ClCompile Include="Font.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="gl8k.cpp" />
     <ClCompile Include="Controller.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -55,6 +51,14 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="WindowsFonts.cpp" />
+    <ClCompile Include="Watchfile.cpp" />
+    <ClCompile Include="gl\gl8k.cpp" />
+    <ClCompile Include="gl\ModelGL.cpp" />
+    <ClCompile Include="gl\Shader.cpp" />
+    <ClCompile Include="gl\Utils.cpp" />
+    <ClCompile Include="math\matrix.cpp" />
+    <ClCompile Include="math\vector.cpp" />
+    <ClCompile Include="RenderState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bmp.h">
@@ -99,8 +103,6 @@
     <ClInclude Include="Font.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="gl8k.h" />
-    <ClInclude Include="glext.h" />
     <ClInclude Include="Controller.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -114,6 +116,14 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="WindowsFonts.h" />
+    <ClInclude Include="Watchfile.h" />
+    <ClInclude Include="gl\gl8k.h" />
+    <ClInclude Include="gl\glext.h" />
+    <ClInclude Include="gl\Shader.h" />
+    <ClInclude Include="gl\Utils.h" />
+    <ClInclude Include="math\matrix.h" />
+    <ClInclude Include="math\vector.h" />
+    <ClInclude Include="RenderState.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="refonter_gui.rc">
@@ -146,5 +156,10 @@
   </ItemGroup>
   <ItemGroup>
     <Font Include="cheri.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="shaders\vis_normals.fs.glsl" />
+    <CopyFileToFolders Include="shaders\vis_normals.gs.glsl" />
+    <CopyFileToFolders Include="shaders\vis_normals.vs.glsl" />
   </ItemGroup>
 </Project>

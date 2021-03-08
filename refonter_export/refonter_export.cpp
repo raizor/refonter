@@ -44,7 +44,7 @@ unsigned int get_contour_start_index(FT_Outline& outline, unsigned int contour)
 }
 
 // Find the relative offset from start index to first point of type ON.
-// This is neccesary because a contour may start with any type of point, but
+// This is necessary because a contour may start with any type of point, but
 // refonter assumes (for simplicity)  that the first point is type ON.
 unsigned int get_contour_start_offset(FT_Outline& outline, unsigned int contour)
 {
@@ -115,7 +115,7 @@ unsigned int get_contour_type(FT_Outline& outline, unsigned int c)
 	FT_Orientation orientation = FT_Outline_Get_Orientation(&outline);
 	unsigned int order = get_contour_order(outline, c);
 
-	if      (orientation==FT_ORIENTATION_TRUETYPE   && order==kOrderCounterClockwise)
+	if (orientation==FT_ORIENTATION_TRUETYPE   && order==kOrderCounterClockwise)
 		return kContourTypeInner;
 	else if (orientation==FT_ORIENTATION_TRUETYPE   && order==kOrderClockwise)
 		return kContourTypeOuter;

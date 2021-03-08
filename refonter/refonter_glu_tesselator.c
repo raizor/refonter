@@ -28,18 +28,12 @@ static void current_tesselator_add_triangle_vertex(const refonter_vertex v)
 {
 	current_tesselator->triangle_vertices[current_tesselator->num_triangle_vertices++] = v;
 }
-/*
-static void current_tesselator_add_edge_vertex(const refonter_vertex v)
-{	
-	current_tesselator->edge_vertices[current_tesselator->num_edge_vertices++] = v;
-}
-*/
+
 static refonter_vertex* tessobj_store_contour_vertex(refonter_tesselation_object* tess_obj, refonter_vec3 pos, refonter_vec3 normal)
 {
 	refonter_vertex* v = &(tess_obj->contour_vertices[current_contour_index][tess_obj->num_contour_vertices[current_contour_index]++]);
 	v->pos = pos;
 	v->normal = normal;
-	//current_tesselator_add_edge_vertex(*v);
 	return v;
 }
 
@@ -231,6 +225,11 @@ void refonter_glu_tesselate_internal(refonter_font* cur_font, refonter_tesselati
 	{
 		cur_char = &(cur_font->chars[character]);
 
+		if (cur_char->num_contours > kMaxTesselatorContours)
+		{
+			// we should raise some sort of alert here?
+		}
+
 		// Init tesselator object for char
 		tessobj_init(&(tess_objects[character]), glu_tess, settings);
 		current_tesselator = &tess_objects[character];
@@ -320,8 +319,8 @@ void add_side_face(refonter_tesselation_object* cur_char, refonter_vertex* p1, r
 
 	double depth = cur_char->settings.depth * .5;
 
-	v0.pos.z = v1.pos.z = depth;
-	v2.pos.z = v3.pos.z = -depth;
+	v0.pos.z = v1.pos.z = -depth;
+	v2.pos.z = v3.pos.z = depth;
 
 	// create normal from two edges
 	const refonter_vec3 e1 = refonter_vertex_minus(v1.pos, v0.pos);
@@ -397,6 +396,7 @@ void refonter_create_back_and_sides(refonter_font* cur_font, refonter_tesselatio
 		
 		// calc vertex normals
 		unsigned int num_contour_triangle_vertices = cur_char->num_triangle_vertices - cur_char->contour_vertices_index_start;
+		
 		for (unsigned int i = 0; i < num_contour_triangle_vertices; i += 6)
 		{
 			unsigned int indexPrev;
@@ -415,7 +415,6 @@ void refonter_create_back_and_sides(refonter_font* cur_font, refonter_tesselatio
 			// 3__2 3__2
 
 			// 2 tris per quad face: 3,0,1 and 1,2,3
-
 			refonter_vertex* v_prev = &cur_char->triangle_vertices[cur_char->contour_vertices_index_start + indexPrev];
 			refonter_vertex* v_this = &cur_char->triangle_vertices[cur_char->contour_vertices_index_start + indexThis];
 			refonter_vertex* v_next = &cur_char->triangle_vertices[cur_char->contour_vertices_index_start + indexNext];
@@ -436,22 +435,6 @@ void refonter_create_back_and_sides(refonter_font* cur_font, refonter_tesselatio
 			const refonter_vec3 normal_edge_2 = refonter_vertex_plus(n_next, n_this);
 			v_this[0].normal = v_this[1].normal = v_this[5].normal = refonter_vertex_normalize(normal_edge_1);
 			v_this[2].normal = v_this[3].normal = v_this[4].normal = refonter_vertex_normalize(normal_edge_2);
-
-			/*			
-			// factor in front/rear faces
-			refonter_vec3 backNormal = refonter_zero_vertex();
-			backNormal.z = 1;
-			refonter_vec3 frontNormal = refonter_zero_vertex();
-			frontNormal.z = -1;
-
-			v_this[1].normal = refonter_vertex_normalize(refonter_vertex_plus(v_this[1].normal, backNormal));
-			v_this[2].normal = refonter_vertex_normalize(refonter_vertex_plus(v_this[2].normal, backNormal));
-			v_this[3].normal = refonter_vertex_normalize(refonter_vertex_plus(v_this[3].normal, backNormal));
-
-			v_this[0].normal = refonter_vertex_normalize(refonter_vertex_plus(v_this[0].normal, frontNormal));
-			v_this[4].normal = refonter_vertex_normalize(refonter_vertex_plus(v_this[4].normal, frontNormal));
-			v_this[5].normal = refonter_vertex_normalize(refonter_vertex_plus(v_this[5].normal, frontNormal));
-			*/
 		}
 	}
 }

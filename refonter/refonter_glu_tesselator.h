@@ -22,8 +22,8 @@ typedef struct
 	double depth;
 	double depth_front;
 	double depth_back;
-	double size_front;
-	double size_back;
+	double contour_offset_front;
+	double contour_offset_back;
 	kRenderStyle render_style;
 
 } refonter_tesselation_settings;
@@ -39,10 +39,10 @@ typedef struct
 	refonter_vertex triangle_vertices[kMaxTesselatorVertices]; // triangle vertices, output from tesselator
 
 	unsigned int num_contour_vertices[kMaxTesselatorContours]; // vertex count for each contour
-	unsigned int num_triangle_vertices; // number of front/back face triangles	
+	unsigned int num_triangle_vertices; // number of front/back face triangles
 	unsigned int num_contours; // contour count
 
-	// offsets into triangles buffer
+	// offsets into triangles buffer where sides/edges begin
 	unsigned int contour_vertices_index_start;
 
 	// general char-style settings for tesselation

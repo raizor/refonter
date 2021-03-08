@@ -16,7 +16,7 @@
 #include "ControllerGL.h"
 #include "resource.h"
 #include "Log.h"
-#include "gl8k.h"
+#include "gl/gl8k.h"
 using namespace Win;
 
 
@@ -97,6 +97,9 @@ void ControllerGL::runThread()
     // set the current RC in this thread
     ::wglMakeCurrent(view->getDC(), view->getRC());
 
+	// init GL
+	InitGlExtensions();
+
     // initialize OpenGL states
 	if (tesselation_settings)
 	tesselation_settings = new refonter_tesselation_settings();
@@ -106,8 +109,8 @@ void ControllerGL::runThread()
 	tesselation_settings->depth_front = 5.0f;
 	tesselation_settings->depth_back = 5.0f;
 
-	tesselation_settings->size_front = 0.9f;
-	tesselation_settings->size_back = 0.9f;
+	tesselation_settings->contour_offset_back = 0.9f;
+	tesselation_settings->contour_offset_front = 0.9f;
 
     model->init(tesselation_settings);
     Win::log(L"Initialized OpenGL states.");
@@ -158,9 +161,6 @@ void ControllerGL::runThread()
     ::GetClientRect(handle, &rect);
     model->resizeWindow(rect.right, rect.bottom);
     Win::log(L"Initialized OpenGL viewport and projection matrix.");
-
-	// init GL
-	InitGlExtensions();
 
     // rendering loop
     Win::log(L"Entering OpenGL rendering thread...");
