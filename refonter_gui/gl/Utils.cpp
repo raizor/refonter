@@ -14,7 +14,6 @@
 
 #include <stdio.h>
 
-
 int msys_rand(int *seed)
 {
 	seed[0] = seed[0] * 0x343FD + 0x269EC3;

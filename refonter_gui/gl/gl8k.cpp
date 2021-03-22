@@ -3,6 +3,8 @@
 
 #include "gl8k.h"
 
+#include "Font.h"
+
 void *myglfunc[GLEXT_FUNCTION_COUNT];
 
 void InitGlExtensions()
@@ -14,4 +16,14 @@ void InitGlExtensions()
 		if( !myglfunc[i] )			
 			return;
 	}
+}
+
+GLint GetUniformLocation(GLhandleARB programObj, const GLcharARB *name)
+{
+	GLint loc = glGetUniformLocation(programObj, name);
+	if (loc < 0)
+	{
+		//DebugBreak();
+	}
+	return loc;
 }

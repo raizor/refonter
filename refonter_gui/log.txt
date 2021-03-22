@@ -1,41 +1,46 @@
-===== Log started at 2021-03-08, 13:13:37. =====
+===== Log started at 2021-03-22, 10:34:34. =====
 
-13:13:37  Main window is created.
-13:13:37  Created a rendering thread for OpenGL.
-13:13:37  OpenGL window is resized: 600x300.
-13:13:37  OpenGL window is created.
-13:13:37  Initialized OpenGL states.
-13:13:37  Initialized OpenGL viewport and projection matrix.
-13:13:37  Entering OpenGL rendering thread...
-13:13:38  OpenGL form dialog is created.
-13:13:38  Status bar window is created.
-13:13:38  OpenGL window is resized: 783x783.
-13:13:39  OpenGL window is resized: 777x743.
-13:13:42  OpenGL window is resized: 779x743.
-13:13:42  OpenGL window is resized: 790x743.
-13:13:42  OpenGL window is resized: 813x743.
-13:13:42  OpenGL window is resized: 829x743.
-13:13:42  OpenGL window is resized: 872x743.
-13:13:42  OpenGL window is resized: 916x743.
-13:13:42  OpenGL window is resized: 959x743.
-13:13:42  OpenGL window is resized: 994x743.
-13:13:42  OpenGL window is resized: 1008x743.
-13:13:42  OpenGL window is resized: 1036x743.
-13:13:42  OpenGL window is resized: 1050x743.
-13:13:42  OpenGL window is resized: 1076x743.
-13:13:42  OpenGL window is resized: 1086x743.
-13:13:42  OpenGL window is resized: 1110x743.
-13:13:42  OpenGL window is resized: 1130x743.
-13:13:42  OpenGL window is resized: 1138x743.
-13:13:43  OpenGL window is resized: 1139x743.
-13:13:44  
-13:13:44  Terminating application...
-13:13:44  Closed OpenGL context.
-13:13:44  Exit OpenGL rendering thread.
-13:13:44  OpenGL window is destroyed.
-13:13:44  Form dialog is destroyed.
-13:13:44  Main window is destroyed.
-13:13:44  Application terminated.
-
-
-===== END OF LOG =====
+10:34:34  Main window is created.
+10:34:35  Created a rendering thread for OpenGL.
+10:34:35  OpenGL window is resized: 600x300.
+10:34:35  OpenGL window is created.
+10:34:35  Initialized OpenGL states.
+10:34:35  Initialized OpenGL viewport and projection matrix.
+10:34:35  Entering OpenGL rendering thread...
+10:34:35  OpenGL form dialog is created.
+10:34:35  Status bar window is created.
+10:34:35  OpenGL window is resized: 1175x1175.
+10:34:51  OpenGL window is resized: 1180x1175.
+10:34:51  OpenGL window is resized: 1234x1176.
+10:34:51  OpenGL window is resized: 1292x1178.
+10:34:51  OpenGL window is resized: 1474x1178.
+10:34:51  OpenGL window is resized: 1697x1178.
+10:34:51  OpenGL window is resized: 1924x1173.
+10:34:51  OpenGL window is resized: 2023x1167.
+10:34:51  OpenGL window is resized: 2278x1149.
+10:34:51  OpenGL window is resized: 2425x1143.
+10:34:51  OpenGL window is resized: 2572x1148.
+10:34:51  OpenGL window is resized: 2701x1159.
+10:34:51  OpenGL window is resized: 2825x1167.
+10:34:51  OpenGL window is resized: 2933x1175.
+10:34:51  OpenGL window is resized: 3012x1177.
+10:34:51  OpenGL window is resized: 3040x1177.
+10:34:51  OpenGL window is resized: 3067x1181.
+10:34:51  OpenGL window is resized: 3105x1186.
+10:34:51  OpenGL window is resized: 3143x1189.
+10:34:51  OpenGL window is resized: 3195x1197.
+10:34:51  OpenGL window is resized: 3267x1203.
+10:34:51  OpenGL window is resized: 3327x1207.
+10:34:51  OpenGL window is resized: 3353x1207.
+10:34:51  OpenGL window is resized: 3356x1208.
+10:34:51  OpenGL window is resized: 3356x1209.
+10:34:51  OpenGL window is resized: 3352x1217.
+10:34:51  OpenGL window is resized: 3349x1225.
+10:34:51  OpenGL window is resized: 3347x1228.
+10:34:51  OpenGL window is resized: 3345x1231.
+10:34:51  OpenGL window is resized: 3343x1232.
+10:34:51  OpenGL window is resized: 3335x1237.
+10:34:51  OpenGL window is resized: 3328x1241.
+10:34:51  OpenGL window is resized: 3323x1243.
+10:34:51  OpenGL window is resized: 3321x1244.
+10:34:52  OpenGL window is resized: 3316x1244.

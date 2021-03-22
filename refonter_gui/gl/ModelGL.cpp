@@ -15,6 +15,8 @@
 
 using namespace std;
 
+#define DEG_PER_RAD 0.0174532925f
+
 ///////////////////////////////////////////////////////////////////////////////
 // default ctor
 ///////////////////////////////////////////////////////////////////////////////
@@ -34,7 +36,7 @@ ModelGL::ModelGL() : windowWidth(0), windowHeight(0), animateFlag(false),
 	winFont = f;
 	fontResolution = 1;
 	fontPointSize = 1;
-	cameraDistance = -30;
+	cameraDistance = 5;
 }
 
 
@@ -304,7 +306,7 @@ void ModelGL::drawCube() {
 	glPopMatrix();
 }
 
-void ModelGL::drawStringPreview(Font* font, char* str) {
+void ModelGL::drawStringPreview(Font* font, char* str, float camPos[3], float camRot[3]) {
 
 	glPushMatrix();
 
@@ -330,7 +332,13 @@ void ModelGL::drawStringPreview(Font* font, char* str) {
 		str2++;
 	}
 
-	glTranslatef(-(0.5f*textWidth), -(0.25f*textHeight), 0.0f);
+	float offset[3] = { 0,0,0 };
+	
+	offset[0] = -(0.5f*textWidth);
+	offset[1] = 0;// -(0.25f*textHeight);
+	offset[2] = 0;
+
+	//glTranslatef(-(0.5f*textWidth), -(0.25f*textHeight), 0.0f);
 
 	while (*str)
 	{
@@ -342,20 +350,21 @@ void ModelGL::drawStringPreview(Font* font, char* str) {
 			if (font->font->chars[i].id == c)
 			{
 				// Draw letter
-				font->DrawLetter(i);
+				font->DrawLetter(i, offset, camPos, camRot);
 
 				// Advance right
 				float charWidth = float(font->font->chars[i].width) / float(kRefonterSubdivision);
 				float charHeight = float(font->font->chars[i].height) / float(kRefonterSubdivision);
 
-				glTranslatef(charWidth, 0.f, 0.f);
+				offset[0] += charWidth;
+				//offset[1] += charHeight;
 			}
 		}
 		str++;
 	}
 	glPopMatrix();
 }
-
+/*
 void ModelGL::drawFontPreview(Font* font)
 {
 	char* strings[6];
@@ -409,7 +418,7 @@ void ModelGL::drawFontPreview(Font* font)
 					// Advance right
 					float charWidth = float(font->font->chars[i].width) / float(kRefonterSubdivision);
 
-					glTranslatef(charWidth, 0.f, 0.f);
+					//glTranslatef(charWidth, 0.f, 0.f);
 					xpos += charWidth;
 
 				}
@@ -420,6 +429,7 @@ void ModelGL::drawFontPreview(Font* font)
 	}
 	glPopMatrix();
 }
+*/
 
 void ModelGL::draw2D()
 {
@@ -446,7 +456,7 @@ void ModelGL::draw2D()
 	// Draw black rects
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
-	drawFontPreview(font);
+	//drawFontPreview(font);
 
 	// Restore IntroState
 	glPopAttrib();
@@ -460,9 +470,9 @@ void ModelGL::draw2D()
 void ModelGL::draw3D()
 {	
 	// TODO: deactivate all textures and program
-	glTranslatef(0, 0, cameraDistance);
-	glRotatef(cameraAngleX, 1, 0, 0);   // pitch
-	glRotatef(cameraAngleY, 0, 1, 0);   // heading
+	//glTranslatef(0, 0, cameraDistance);
+	//glRotatef(cameraAngleX, 1, 0, 0);   // pitch
+	//glRotatef(cameraAngleY, 0, 1, 0);   // heading
 
 	//glDisable(GL_DEPTH_TEST);
 	//glDisable(GL_CULL_FACE);
@@ -475,9 +485,10 @@ void ModelGL::draw3D()
 	// Draw black rects
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
-	//drawFontPreview(font);
-	drawStringPreview(font, "raizor");
-	//drawCube();
+	float cam_pos[3] = { 0, 0, cameraDistance };
+	float cam_rot[3] = { cameraAngleX*0.1f, cameraAngleY*0.1f, 0 };
+
+	drawStringPreview(font, "raizor", cam_pos, cam_rot);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -491,8 +502,10 @@ void ModelGL::draw()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
     // save the initial ModelView matrix before modifying ModelView matrix
-    glPushMatrix();
-
+	glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();	
+	glLoadIdentity();
+	
 	int drawMode2 = 0;
 
 	if (drawMode2 == 0)           // fill mode

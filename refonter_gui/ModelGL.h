@@ -21,7 +21,8 @@
 #include "refonter.h"
 #include "gl/Shader.h"
 #include "Font.h"
-
+#include "math/vector.h"
+#include "math/matrix.h"
 
 enum
 {
@@ -59,8 +60,8 @@ public:
 
 	void generateFont();
 	void drawCube();
-	void drawStringPreview(Font* font, char* str);
-	void drawFontPreview(Font* font);
+	void drawStringPreview(Font* font, char* str, float camPos[3], float camRot[3]);
+	//void drawFontPreview(Font* font);
 	bool shouldRegenerateFont;
 	WindowsFont* winFont;
 	int fontResolution;
@@ -68,6 +69,18 @@ public:
 	refonter_tesselation_settings* tesselation_settings;
 
 	GLuint cubeBufferId;
+
+	float roll;
+	float pitch;
+	float heading;
+
+	ZVector eye;
+	ZVector look;
+	ZVector cube;
+	ZVector objectPos;
+
+	ZMatrix MAT_MV;
+	ZMatrix MAT_MV_INV;
 
 protected:
 

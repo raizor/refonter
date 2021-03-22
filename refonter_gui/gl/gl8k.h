@@ -210,5 +210,5 @@ static const char *strs[] =
 #endif
 
 void InitGlExtensions();
-
+GLint GetUniformLocation(GLhandleARB programObj, const GLcharARB *name);
 }

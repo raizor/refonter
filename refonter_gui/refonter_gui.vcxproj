@@ -205,6 +205,7 @@
     <ClCompile Include="math\matrix.cpp" />
     <ClCompile Include="math\vector.cpp" />
     <ClCompile Include="procedure.cpp" />
+    <ClCompile Include="quatCam.cpp" />
     <ClCompile Include="RenderState.cpp" />
     <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="ViewFormGL.cpp" />
@@ -233,6 +234,7 @@
     <ClInclude Include="math\vector.h" />
     <ClInclude Include="ModelGL.h" />
     <ClInclude Include="procedure.h" />
+    <ClInclude Include="quatCam.h" />
     <ClInclude Include="RenderState.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Sphere.h" />
@@ -261,6 +263,22 @@
     </CopyFileToFolders>
     <CopyFileToFolders Include="shaders\vis_normals.vs.glsl">
       <DeploymentContent>true</DeploymentContent>
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="shaders\lambert.fs.glsl">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="shaders\lambert.vs.glsl">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="shaders\vis_object.fs.glsl">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="shaders\vis_object.vs.glsl">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
       <FileType>Document</FileType>
     </CopyFileToFolders>
     <None Include="songho.ico" />

@@ -59,6 +59,7 @@
     <ClCompile Include="math\matrix.cpp" />
     <ClCompile Include="math\vector.cpp" />
     <ClCompile Include="RenderState.cpp" />
+    <ClCompile Include="quatCam.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bmp.h">
@@ -124,6 +125,7 @@
     <ClInclude Include="math\matrix.h" />
     <ClInclude Include="math\vector.h" />
     <ClInclude Include="RenderState.h" />
+    <ClInclude Include="quatCam.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="refonter_gui.rc">
@@ -161,5 +163,9 @@
     <CopyFileToFolders Include="shaders\vis_normals.fs.glsl" />
     <CopyFileToFolders Include="shaders\vis_normals.gs.glsl" />
     <CopyFileToFolders Include="shaders\vis_normals.vs.glsl" />
+    <CopyFileToFolders Include="shaders\lambert.vs.glsl" />
+    <CopyFileToFolders Include="shaders\vis_object.fs.glsl" />
+    <CopyFileToFolders Include="shaders\vis_object.vs.glsl" />
+    <CopyFileToFolders Include="shaders\lambert.fs.glsl" />
   </ItemGroup>
 </Project>
